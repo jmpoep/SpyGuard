@@ -23,11 +23,20 @@ class IOCs(object):
 
         ioc_value = ioc_value.lower() if ioc_type != "snort" else ioc_value
         ioc_valid = False
-        if db.session.query(exists().where(Ioc.value == ioc_value)).scalar():
-            return {"status": False,
-                    "message": "IOC already exists",
-                    "ioc": escape(ioc_value)}
-        elif ioc_tlp in ["white", "green", "amber", "red"]:
+
+        def _normalize_asn(v: str) -> str:
+            v = (v or "").strip().lower()
+            if v.startswith("as"):
+                v = v[2:]
+            v = v.strip()
+            # Keep a canonical value in DB: digits only.
+            if v.isdigit():
+                # avoid turning "0" into ""
+                v2 = v.lstrip("0")
+                return v2 if v2 else "0"
+            return v
+
+        if ioc_tlp in ["white", "green", "amber", "red"]:
             if ioc_type == "unknown":
                 for t in definitions["iocs_types"]:
                     if t["regex"] and t["auto"]:
@@ -50,6 +59,19 @@ class IOCs(object):
                         "type": escape(ioc_type)}
 
             if ioc_valid:
+                if ioc_type == "asn":
+                    ioc_value = _normalize_asn(ioc_value)
+                    # Re-check format after normalization.
+                    if not re.match(r"^[0-9]{1,10}$", ioc_value):
+                        return {"status": False,
+                                "message": "Wrong IOC format",
+                                "ioc": escape(ioc_value)}
+
+                if db.session.query(exists().where(Ioc.value == ioc_value)).scalar():
+                    return {"status": False,
+                            "message": "IOC already exists",
+                            "ioc": escape(ioc_value)}
+
                 added_on = int(time.time())
                 db.session.add(Ioc(ioc_value, ioc_type, ioc_tlp,
                                    ioc_tag, source, added_on))

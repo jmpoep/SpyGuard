@@ -3,7 +3,8 @@
         <div class="center">
             <div v-if="(error == false)">
                 <div v-if="ssid_name">
-                    <div class="card apcard" v-on:click="generate_ap()">
+                    <div class="apcard-frame">
+                        <div class="card apcard" v-on:click="generate_ap()">
                         <div class="columns">
                             <div class="column col-5">
                                 <center><img :src="ssid_qr" id="qrcode"></center>
@@ -16,9 +17,9 @@
                                 <h4>{{ ssid_password }}</h4>
                             </div>
                         </div>
+                        </div>
                     </div>
-                    <br /><br /><br /><br /> <br /><br /><br /><br /><br /><br />
-                    <!-- Requite a CSS MEME for that shit :) -->
+                    <br /><br />
                     <span class="legend">{{ $t("generate-ap.tap_msg") }}</span>
                 </div>
                 <div v-else>
@@ -107,7 +108,6 @@ export default {
             if (data.status) {
                 console.log("[generate-ap.vue] Capture token retrieved, waiting a device to connect");
                 this.capture_token = data.capture_token
-                this.capture_start = Date.now()
                 this.get_device()
             }
         },
@@ -122,6 +122,8 @@ export default {
                 console.log("[generate-ap.vue] Device connected, going to capture view.");
                 clearInterval(this.interval);
                 var capture_token = this.capture_token
+                // Start the UI timer when the device actually connects (not when AP is generated).
+                this.capture_start = Date.now()
                 var capture_start = this.capture_start
                 var device_name = data.name
                 router.replace({

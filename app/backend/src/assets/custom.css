@@ -789,7 +789,8 @@ h4, h5 {
 
 #update-banner {
 	padding: 5px 20px;
-    background-color: #d1ff51;
+    background-color: #64c800;
+	color: #fff;
 	cursor: pointer;
 }
 

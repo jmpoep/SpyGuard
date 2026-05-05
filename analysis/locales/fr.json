@@ -6,11 +6,11 @@
         },
         "PROTO-02": {
             "title": "Connexion {} vers {} sur un port au dessus ou égal à {}.",
-            "description": "Des connexions {} vers {} ont été vues utilisant le port {}. L'utilisation d'un numéro de port non standard peut être associé à des activités malveillantes. Nous recommandons de vérifier si ce serveur possède une bonne réputation en regardant les autres alertes et en le cherchant sur Internet."
+            "description": "Des connexions {} vers {} ont été vues utilisant le port {}. L'utilisation d'un numéro de port non standard peut être associée à des activités malveillantes. Nous recommandons de vérifier si ce serveur possède une bonne réputation en regardant les autres alertes et en le cherchant sur Internet."
         },
         "PROTO-03": {
             "title": "Des communications HTTP ont été réalisées vers {}",
-            "description": "Votre appareil a communiqué avec le serveur {} en utilisant HTTP, un protocole non chiffré. Même si ce n'est pas malveillant en tant que tel, il est rare de voir des communications HTTP issues d'applications installées sur des smartphones exécutées en arrière plan. Il est conseillé de vérifier la réputation du serveur en le recherchant sur Internet."
+            "description": "Votre appareil a communiqué avec le serveur {} en utilisant HTTP, un protocole non chiffré. Même si ce n'est pas malveillant en tant que tel, il est rare de voir des communications HTTP issues d'applications installées sur des smartphones exécutées en arrière-plan. Il est conseillé de vérifier la réputation du serveur en le recherchant sur Internet."
         },
         "PROTO-04": {
             "title": "Des communications HTTP ont été réalisées vers {} sur un port non standard ({}).",
@@ -18,7 +18,12 @@
         },
         "PROTO-05": {
             "title": "Le serveur {} n'a pas été résolu par le protocole DNS durant la session",
-            "description": "Cela signifie que le serveur {} ne possède pas de nom de domaine associé ou que sa résolution a déjà été mise en cache par votre appareil. Si le serveur apparait dans d'autres alertes, merci de vérifier sa réputation."
+            "description": "Cela signifie que le serveur {} ne possède pas de nom de domaine associé ou que sa résolution a déjà été mise en cache par votre appareil. Si le serveur apparaît dans d'autres alertes, merci de vérifier sa réputation.",
+            "title_pdns": "Le serveur {} ({}) n'a pas été résolu par le protocole DNS durant la session",
+            "description_pdns_single": "Cela signifie que le serveur {} ne possède pas de nom de domaine associé ou que sa résolution a déjà été mise en cache par votre appareil. Cependant, le service de DNS passif ip.thc.org indique que cette adresse IP a été résolue au moins par {}. Si le serveur apparaît dans d'autres alertes, merci de vérifier sa réputation.",
+            "description_pdns": "Cela signifie que le serveur {} ne possède pas de nom de domaine associé ou que sa résolution a déjà été mise en cache par votre appareil. Cependant, le service de DNS passif ip.thc.org indique que cette adresse IP a été résolue au moins par {} et {} autres domaines. Si le serveur apparaît dans d'autres alertes, merci de vérifier sa réputation.",
+            "description_pdns_none": "Le service de DNS passif ip.thc.org n’a pas renvoyé de nom de domaine associé à cette adresse IP.",
+            "umbrella_top500k_note": "Ce domaine est présent dans le Top 500K de Cisco Umbrella."
         },
         "IOC-01": {
             "title": "Connexion vers {} ({}) qui est tagué en tant que {}.",
@@ -34,7 +39,7 @@
         },
         "IOC-04": {
             "title": "Requête DNS vers le domaine {} qui est tagué en tant que {}.",
-            "description": "Le nom de domaine {} vers lequel communique votre appareil a été explicitement catégorisé comme un tracker. Ceci indique d'une application active sur votre appareil est entrain de vous géo-localiser."
+            "description": "Le nom de domaine {} vers lequel communique votre appareil a été explicitement catégorisé comme un tracker. Ceci indique qu'une application active sur votre appareil est en train de vous géolocaliser."
         },
         "IOC-05": {
             "title": "Requête DNS vers le domaine {} qui est un domaine gratuit.",
@@ -42,7 +47,7 @@
         },
         "IOC-06": {
             "title": "Requête DNS vers le domaine {} contenant une extension suspecte.",
-            "description": "Le nom de domaine {} utilise une extension suspecte ({}). Même si cela n'est pas malveillant en-soi, l'utilisation d'une extension non générique est l'apanage d'acteurs cybercriminels et étatiques durant leurs opérations. Veuillez vérifier la pertinance de ce domaine en le recherchant sur un moteur de recherche Internet. Si d'autres alertes sont liées à ce dernier, veuillez le considérer comme très suspect."
+            "description": "Le nom de domaine {} utilise une extension suspecte ({}). Même si cela n'est pas malveillant en soi, l'utilisation d'une extension non générique est l'apanage d'acteurs cybercriminels et étatiques durant leurs opérations. Veuillez vérifier la pertinence de ce domaine en le recherchant sur un moteur de recherche Internet. Si d'autres alertes sont liées à ce dernier, veuillez le considérer comme très suspect."
         },
         "IOC-07": {
             "title": "Un certificat associé à des activités de {} a été vu lors de communications vers {}.",
@@ -58,7 +63,7 @@
         },
         "IOC-10": {
             "title": "Requête HTTP vers le domaine {} contenant une extension suspecte.",
-            "description": "Le nom de domaine {} utilise une extension suspecte ({}). Même si cela n'est pas malveillant en-soi, l'utilisation d'une extension non générique est l'apanage d'acteurs cybercriminels et étatiques durant leurs opérations. Veuillez vérifier la pertinance de ce domaine en le recherchant sur un moteur de recherche Internet. Si d'autres alertes sont liées à ce dernier, veuillez le considérer comme très suspect."
+            "description": "Le nom de domaine {} utilise une extension suspecte ({}). Même si cela n'est pas malveillant en soi, l'utilisation d'une extension non générique est l'apanage d'acteurs cybercriminels et étatiques durant leurs opérations. Veuillez vérifier la pertinence de ce domaine en le recherchant sur un moteur de recherche Internet. Si d'autres alertes sont liées à ce dernier, veuillez le considérer comme très suspect."
         },
         "IOC-11": {
             "title": "Connexion vers {} ({}) qui est référencé en tant que noeud TOR.",
@@ -66,11 +71,15 @@
         },
         "IOC-12": {
             "title": "Une application requête un service pouvant avoir un double emploi.",
-            "description": "Le serveur {} est utilisé à des fins légitimes. Toutefois, certains attaquants s'en servent pour intéragir avec leurs implants. Il est conseillé de vérifier que l'appareil analysé contient bien une application légitime utilisant ce service."
+            "description": "Le serveur {} est utilisé à des fins légitimes. Toutefois, certains attaquants s'en servent pour interagir avec leurs implants. Il est conseillé de vérifier que l'appareil analysé contient bien une application légitime utilisant ce service."
         },
         "IOC-13": {
             "title": "Au moins une application utilise des requêtes DNS chiffrées",
             "description": "Le résolveur de noms utilisant HTTPs {} a été contacté durant la capture. Ceci semble indiquer qu'au moins une application utilise cette technique permettant de chiffrer les requêtes DNS. Cette fonctionnalité limite les capacités d'analyse de SpyGuard. Si cette fonctionnalité n'est pas activée sur le dispositif analysé, il peut être intéressant de découvrir quelle application utilise cette méthode."
+        },
+        "IOC-14": {
+            "title": "Connexion vers un système autonome suspect (AS{} {}).",
+            "description": "L’hôte {} ({}) appartient au système autonome AS{} {} qui est réputé pour être utilisé par des activités cybercriminelles. Si d’autres alertes apparaissent concernant cet hôte, une analyse approfondie du dispositif devra être réalisée."
         },
         "ACT-01": {
             "title": "Le domaine {} utilise un serveur de noms suspect ({}).",
@@ -78,7 +87,7 @@
         },
         "ACT-02": {
             "title": "Le domaine {} a été créé récemment (il y a {} jours).",
-            "description": "Le nom de domaine {} est nouveau. Même ce n'est pas malveillant en soi, il est assez courant pour les attaquants de mettre en place une nouvelle infrastructure pour chaque campagne, ce qui peut conduire à l'utilisation de noms de domaine récemment enregistrés."
+            "description": "Le nom de domaine {} est nouveau. Même si ce n'est pas malveillant en soi, il est assez courant pour les attaquants de mettre en place une nouvelle infrastructure pour chaque campagne, ce qui peut conduire à l'utilisation de noms de domaine récemment enregistrés."
         },
         "SSL-01": {
             "title": "Connexion SSL utilisant un port non standard ({}) vers {}",
@@ -97,12 +106,16 @@
             "description": "Ce certificat associé au serveur {} a été explicitement catégorisé en tant que malveillant. Votre appareil est sûrement compromis et doit être investigué plus en détails par une équipe professionnelle."
         },
         "SSL-05": {
-            "title": "La configuration SSL de {} est associé à des activités malveillantes ({}).",
+            "title": "La configuration SSL de {} est associée à des activités malveillantes ({}).",
             "description": "Le hash JARM lié au serveur {} a été explicitement associé à des activités malveillantes. Votre appareil est sûrement compromis et doit être investigué plus en détails par une équipe professionnelle."
         },
         "ADV-01": {
             "title": "Vérifiez les alertes liées au serveur {}",
             "description": "Merci de vérifier la réputation et les alertes liées au serveur {}, ce dernier semble malveillant, ayant engendré {} alertes durant la session de capture."
+        },
+        "UMBRELLA-01": {
+            "title": "Le domaine {} n'est pas dans le top 500K Cisco Umbrella",
+            "description": "Le domaine {} ne figure pas parmi les 500000 noms les plus interrogés dans la télémétrie DNS mondiale Cisco Umbrella. Ce n'est pas une preuve de malveillance — de nombreux sites légitimes sont peu fréquents — mais il convient de vérifier cet hôte, surtout si d'autres alertes le mentionnent."
         },
         "SNORT-01": {
             "title": "Règle suricata déclanchée : {}",

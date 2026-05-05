@@ -1,7 +1,4 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-
-Vue.use(VueRouter)
+import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
@@ -53,6 +50,12 @@ const routes = [
     props: true
   },
   {
+    path: '/instances/local-assets',
+    name: 'local-assets',
+    component: () => import('../views/local-assets.vue'),
+    props: true
+  },
+  {
     path: '/iocs/search',
     name: 'iocs-search',
     component: () => import('../views/iocs-search.vue'),
@@ -78,10 +81,11 @@ const routes = [
   }
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+const router = createRouter({
+  // Keep app routing rooted at `/` even if Vite `base` is set
+  // for relative asset paths in production builds.
+  history: createWebHistory(),
+  routes,
 })
 
 export default router

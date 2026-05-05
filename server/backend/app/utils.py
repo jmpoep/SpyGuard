@@ -5,38 +5,66 @@ import hashlib
 import yaml
 import os
 from functools import reduce
+from typing import Any, Iterable, Iterator
 
 
-def read_config(path):
+CONFIG_PATH = "/usr/share/spyguard/config.yaml"
+WATCHERS_PATH = "/usr/share/spyguard/watchers.yaml"
+
+
+def read_config(path: Iterable[str], default: Any = None) -> Any:
     """
         Read a value from the configuration
         :return: value (it can be any type)
     """
-    config = yaml.load(open("/usr/share/spyguard/config.yaml", "r"), Loader=yaml.SafeLoader)
-    return reduce(dict.get, path, config)
+    try:
+        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+            config = yaml.load(f, Loader=yaml.SafeLoader) or {}
+    except Exception:
+        return default
+
+    cur: Any = config
+    for key in path:
+        if not isinstance(cur, dict):
+            return default
+        if key not in cur:
+            return default
+        cur = cur[key]
+    return cur
 
 
-def write_config(cat, key, value):
+def write_config(cat: str, key: str, value: Any) -> bool:
     """
         Write a new value in the configuration
         :return: bool, operation status
     """
     try:
-        config = yaml.load(open("/usr/share/spyguard/config.yaml", "r"), Loader=yaml.SafeLoader)
+        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+            config = yaml.load(f, Loader=yaml.SafeLoader) or {}
+        if not isinstance(config, dict):
+            return False
+        if cat not in config or not isinstance(config.get(cat), dict):
+            return False
         config[cat][key] = value
-        with open(os.path.join(dir, "config.yaml"), "w") as yaml_file:
+
+        tmp_path = f"{CONFIG_PATH}.tmp"
+        with open(tmp_path, "w", encoding="utf-8") as yaml_file:
             yaml_file.write(yaml.dump(config, default_flow_style=False))
-            return True
-    except:
+            yaml_file.flush()
+            os.fsync(yaml_file.fileno())
+        os.replace(tmp_path, CONFIG_PATH)
+        return True
+    except (OSError, yaml.YAMLError, KeyError, TypeError, ValueError):
         return False
 
 
-def get_watchers(watcher_type):
+def get_watchers(watcher_type: str) -> Iterator[dict[str, Any]]:
     """
         Read a value from the configuration
         :return: value (it can be any type)
     """
-    watchers = yaml.load(open("/usr/share/spyguard/watchers.yaml", "r"), Loader=yaml.SafeLoader)
+    with open(WATCHERS_PATH, "r", encoding="utf-8") as f:
+        watchers = yaml.load(f, Loader=yaml.SafeLoader)
     for watcher in watchers["watchers"]:
         if watcher_type == watcher["type"]:
             yield watcher

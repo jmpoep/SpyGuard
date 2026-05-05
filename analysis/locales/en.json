@@ -2,23 +2,28 @@
     "alerts": {
         "PROTO-01": {
             "title": "{} communication going outside the local network to {}.",
-            "description": "The {} protocol is commonly used in internal networks. Please, verify if the host {} leveraged other alerts which may indicates a possible malicious behavior."
+            "description": "The {} protocol is commonly used in internal networks. Please verify whether the host {} triggered other alerts that may indicate malicious behavior."
         },
         "PROTO-02": {
             "title": "{} connection to {} to a port over or equal to {}.",
-            "description": "{} connections have been seen to {} by using the port {}. The use of non-standard port can be sometimes associated to malicious activities. We recommend to check if this host has a good reputation by looking on other alerts and search it on the internet."
+            "description": "{} connections were observed to {} using port {}. The use of a non-standard port can sometimes be associated with malicious activity. We recommend checking this host's reputation by reviewing other alerts and searching for it online."
         },
         "PROTO-03": {
             "title": "HTTP communications have been done to the host {}",
-            "description": "Your device exchanged with the host {} by using HTTP, an unencrypted protocol. Even if this behavior is not malicious by itself, it is unusual to see HTTP communications issued from smartphone applications running in the background. Please check the host reputation by searching it on the internet."
+            "description": "Your device communicated with the host {} using HTTP, an unencrypted protocol. Even if this behavior is not malicious by itself, it is unusual to see HTTP communications from smartphone applications running in the background. Please check the host's reputation by searching for it online."
         },
         "PROTO-04": {
             "title": "HTTP communications have been seen to the host {} on a non standard port ({}).",
-            "description": "Your device exchanged with the host {} by using HTTP, an unencrypted protocol on the port {}. This behavior is quite unusual. Please check the host reputation by searching it on the internet."
+            "description": "Your device communicated with the host {} using HTTP, an unencrypted protocol, on port {}. This behavior is quite unusual. Please check the host's reputation by searching for it online."
         },
         "PROTO-05": {
             "title": "The server {} hasn't been resolved by any DNS query during the session",
-            "description": "It means that the server {} is likely not resolved by any domain name or the resolution has already been cached by the device. If the host appears in other alerts, please check it."
+            "description": "It means that the server {} is likely not resolved by any domain name or the resolution has already been cached by the device. If the host appears in other alerts, please check it.",
+            "title_pdns": "The server {} ({}) hasn't been resolved by any DNS query during the session",
+            "description_pdns_single": "It means that the server {} is likely not resolved by any domain name, or the resolution has already been cached by the device. However, the passive DNS service ip.thc.org indicates that this IP address was resolved at least by {}. If the host appears in other alerts, please check it.",
+            "description_pdns": "It means that the server {} is likely not resolved by any domain name, or the resolution has already been cached by the device. However, the passive DNS service ip.thc.org indicates that this IP address was resolved at least by {} and {} other domains. If the host appears in other alerts, please check it.",
+            "description_pdns_none": "The passive DNS service ip.thc.org did not return any associated domain for this IP address.",
+            "umbrella_top500k_note": "This domain is present in the Cisco Umbrella Top 500K."
         },
         "IOC-01": {
             "title": "A connection has been made to {} ({}) which is tagged as {}.",
@@ -26,39 +31,39 @@
         },
         "IOC-02": {
             "title": "Communication to {} under the CIDR {} which is tagged as {}.",
-            "description": "The server {} is hosted under a network which is known to host malicious activities. Even if this behavior is not malicious by itself, you need to check if other alerts are also mentioning this host. If you have some doubts, please search this host on the internet to see if its legit or not."
+            "description": "The server {} is hosted in a network known to host malicious activity. Even if this behavior is not malicious by itself, you should check whether other alerts also mention this host. If you have doubts, search for this host online to see whether it is legitimate."
         },
         "IOC-03": {
-            "title": "A DNS request have been done to {} which is tagged as {}.",
+            "title": "A DNS request was made to {} which is tagged as {}.",
             "description": "The domain name {} seen in the capture has been explicitly tagged as malicious. This indicates that your device is likely compromised and needs to be investigated deeply."
         },
         "IOC-04": {
-            "title": "A DNS request have been done to {} which is tagged as {}.",
-            "description": "The domain name {} seen in the capture has been explicitly tagged as a Tracker. This indicates that one of the active apps is geo-tracking your moves."
+            "title": "A DNS request was made to {} which is tagged as {}.",
+            "description": "The domain name {} seen in the capture has been explicitly tagged as a tracker. This indicates that one of the active apps is tracking your location."
         },
         "IOC-05": {
-            "title": "A DNS request have been done to the domain {} which is a Free DNS.",
-            "description": "The domain name {} is using a Free DNS service. This kind of service is commonly used by cybercriminals or state-sponsored threat actors during their operations. It is very suspicious that an application running in background use this kind of service, please investigate."
+            "title": "A DNS request was made to the domain {} which uses a free DNS service.",
+            "description": "The domain name {} uses a free DNS service. This kind of service is commonly used by cybercriminals or state-sponsored threat actors during their operations. It is suspicious for a background application to use this kind of service; please investigate."
         },
         "IOC-06": {
-            "title": "A DNS request have been done to the domain {} which contains a suspect TLD.",
-            "description": "The domain name {} is using a suspect Top Level Domain ({}). Even not malicious, this non-generic TLD is used regularly by cybercrime or state-sponsored operations. Please check this domain by searching it on an internet search engine. If other alerts are related to this host, please consider it as very suspicious."
+            "title": "A DNS request was made to the domain {} which contains a suspicious TLD.",
+            "description": "The domain name {} uses a suspicious top-level domain ({}). Even if not malicious by itself, this non-generic TLD is regularly used in cybercrime or state-sponsored operations. Please check this domain by searching for it online. If other alerts are related to this host, consider it highly suspicious."
         },
         "IOC-07": {
-            "title": "A certificate associated to {} activities have been found in the communication to {}.",
-            "description": "The certificate ({}) associated to {} has been explicitly tagged as malicious. This indicates that your device is likely compromised and need a forensic analysis."
+            "title": "A certificate associated with {} activity was found in communications to {}.",
+            "description": "The certificate ({}) associated with {} has been explicitly tagged as malicious. This indicates that your device is likely compromised and needs forensic analysis."
         },
         "IOC-08": {
-            "title": "An HTTP request have been done to {} which is tagged as {}.",
+            "title": "An HTTP request was made to {} which is tagged as {}.",
             "description": "The domain name {} seen in the capture has been explicitly tagged as malicious. This indicates that your device is likely compromised and needs to be investigated deeply."
         },
         "IOC-09": {
-            "title": "An HTTP request have been done to the domain {} which is a Free DNS.",
-            "description": "The domain name {} is using a Free DNS service. This kind of service is commonly used by cybercriminals or state-sponsored threat actors during their operations. It is very suspicious that an application running in background use this kind of service, please investigate."
+            "title": "An HTTP request was made to the domain {} which uses a free DNS service.",
+            "description": "The domain name {} uses a free DNS service. This kind of service is commonly used by cybercriminals or state-sponsored threat actors during their operations. It is suspicious for a background application to use this kind of service; please investigate."
         },
         "IOC-10": {
-            "title": "An HTTP request have been done to the domain {} which contains a suspect TLD.",
-            "description": "The domain name {} is using a suspect Top Level Domain ({}). Even not malicious, this non-generic TLD is used regularly by cybercrime or state-sponsored operations. Please check this domain by searching it on an internet search engine. If other alerts are related to this host, please consider it as very suspicious."
+            "title": "An HTTP request was made to the domain {} which contains a suspicious TLD.",
+            "description": "The domain name {} uses a suspicious top-level domain ({}). Even if not malicious by itself, this non-generic TLD is regularly used in cybercrime or state-sponsored operations. Please check this domain by searching for it online. If other alerts are related to this host, consider it highly suspicious."
         },
         "IOC-11": {
             "title": "Connection to {} ({}) which is referenced as a TOR node.",
@@ -66,23 +71,27 @@
         },
         "IOC-12": {
             "title": "An application requests a legitimate service that may have a dual use .",
-            "description": "The server {} is used for legitimate purposes. However, some attackers can use it to interact with their implants. It is adviced to check that the analyzed device contains a legitimate application which use this service."
+            "description": "The server {} is used for legitimate purposes. However, some attackers can use it to interact with their implants. We recommend checking that the analyzed device contains a legitimate application that uses this service."
         },
         "IOC-13": {
             "title": "At least one application uses encrypted DNS queries.",
             "description": "The DNS over HTTPs server {} was contacted during the capture. This seems to indicate that at least one application uses this technique to encrypt its DNS requests. This feature limits the scanning capabilities of SpyGuard. If this feature is not enabled on the analyzed device, it may be worth finding out which app is using this method."
         },
+        "IOC-14": {
+            "title": "Connection to a suspicious autonomous system (AS{} {}).",
+            "description": "The host {} ({}) belongs to the autonomous system AS{} {} which is known to be used for cybercriminal activities. If other alerts also appear for this host, a deeper investigation of the device should be performed."
+        },
         "ACT-01": {
             "title": "The domain {} is using a suspect nameserver ({}).",
-            "description": "The domain name {} is using a nameserver that has been explicitly tagged to be associated to malicious activities. Many cybercriminals and state-sponsored threat actors are using this kind of registrars because they allow cryptocurrencies and anonymous payments. It is adviced to investigate on this domain and the associated running application by doing a forensic analysis of the phone."
+            "description": "The domain name {} uses a nameserver that has been explicitly tagged as being associated with malicious activity. Many cybercriminals and state-sponsored threat actors use this kind of registrar because they allow cryptocurrency and anonymous payments. We recommend investigating this domain and the associated application by performing a forensic analysis of the phone."
         },
         "ACT-02": {
             "title": "The domain {} have been created quite recently ({} days ago).",
-            "description": "The domain name {} is quite new. Even this is not malicious by itself, its quite common for attackers to set up new infrastructure for each attack campaign which can lead to the use of recently registered domain names."
+            "description": "The domain name {} is quite new. Even if this is not malicious by itself, it is common for attackers to set up new infrastructure for each campaign, which can lead to the use of recently registered domain names."
         },
         "SSL-01": {
             "title": "SSL connection done on a non standard port ({}) to {}",
-            "description": "It is not common to see SSL connections issued from smartphones using non-standard ports. Even this can be totally legit, we recommend to check the reputation of {}, by looking at its WHOIS record, the associated autonomus system, its creation date, and by searching it the internet."
+            "description": "It is not common to see SSL connections from smartphones using non-standard ports. Even if this can be legitimate, we recommend checking the reputation of {} by looking at its WHOIS record, the associated autonomous system, its creation date, and by searching for it online."
         },
         "SSL-02": {
             "title": "An SSL connection to {} is using a free certificate.",
@@ -104,9 +113,13 @@
             "title": "Check the alerts for {}",
             "description": "Please, check the reputation of the host {}, this one seems to be malicious as it leveraged {} alerts during the session."
         },
+        "UMBRELLA-01": {
+            "title": "Domain {} is not in the Cisco Umbrella top 500K",
+            "description": "The domain {} does not appear among the 500000 most queried names in Cisco Umbrella global DNS telemetry. That is not proof of malicious activity—many legitimate sites are uncommon—but you should verify this host, especially if other alerts reference it."
+        },
         "SNORT-01": {
             "title": "Suricata rule tiggered: {}",
-            "description": "A network detection rule has been triggered. It's likely that your device has been compromised or have some suspect behaviour."
+            "description": "A network detection rule was triggered. It's likely that your device has been compromised or is showing suspicious behavior."
         }
     },
     "report": {

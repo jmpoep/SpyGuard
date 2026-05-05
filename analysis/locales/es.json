@@ -2,23 +2,28 @@
     "alerts": {
         "PROTO-01": {
             "title": "Comunicación {} saliente desde la red local hacia {}.",
-            "description": "El protocolo {} se usa comúnmente en redes internas. Por favor verifique si el host {} ha emitido otras alertas que puedan indicar un posible comportamiento malicioso"
+            "description": "El protocolo {} se usa comúnmente en redes internas. Por favor, verifique si el host {} ha emitido otras alertas que puedan indicar un posible comportamiento malicioso."
         },
         "PROTO-02": {
             "title": "Conexión {} hacia {} en un puerto superior o igual a {}.",
-            "description": "Se han identificado conexiones {} hacia {} usando el puerto {}. El uso de un puerto no standard puede estar asociado a actividad maliciosa. Recomendamos verificar la reputación de este host mediante la comprobación de otras alertas y búsquedas en Internet."
+            "description": "Se han identificado conexiones {} hacia {} usando el puerto {}. El uso de un puerto no estándar puede estar asociado a actividad maliciosa. Recomendamos verificar la reputación de este host mediante la comprobación de otras alertas y búsquedas en Internet."
         },
         "PROTO-03": {
             "title": "Se han realizado comunicaciones HTTP hacia el host {}",
-            "description": "Su dispositivo se ha comunicado con el host {} mediante HTTP, un protocolo sin cifrar. Aunque este comportamiento no tiene porque ser malicioso por sí mismo, no es del todo común ver comunicaciones HTTP emitidas desde aplicaciones móviles ejecutándose en segundo plano. Por favor verifique la reputación de este host mediante su búsqueda en Internet."
+            "description": "Su dispositivo se ha comunicado con el host {} mediante HTTP, un protocolo sin cifrar. Aunque este comportamiento no tiene por qué ser malicioso por sí mismo, no es del todo común ver comunicaciones HTTP emitidas desde aplicaciones móviles ejecutándose en segundo plano. Por favor, verifique la reputación de este host mediante su búsqueda en Internet."
         },
         "PROTO-04": {
             "title": "Se han realizado comunicaciones HTTP hacia el host {} en un puerto ({}) no standard.",
-            "description": "Su dispositivo se ha comunicado con el host {} mediante HTTP, un protocolo sin cifrado, en el puerto {}. Este comportamiento es bastante inusual. Por favor verifique la reputación de este host mediante su búsqueda en Internet."
+            "description": "Su dispositivo se ha comunicado con el host {} mediante HTTP, un protocolo sin cifrado, en el puerto {}. Este comportamiento es bastante inusual. Por favor, verifique la reputación de este host mediante su búsqueda en Internet."
         },
         "PROTO-05": {
             "title": "El servidor {} no ha sido resuelto por ningún servidor DNS durante la sesión.",
-            "description": "Significa que el servidor {} probablemente no resuelve a ningún nombre de dominio o su resolución ha sido cacheada por el dispositivo. Por favor, compruebe si este host aparece en otras alertas."
+            "description": "Significa que el servidor {} probablemente no resuelve a ningún nombre de dominio o su resolución ha sido cacheada por el dispositivo. Por favor, compruebe si este host aparece en otras alertas.",
+            "title_pdns": "El servidor {} ({}) no ha sido resuelto por ningún servidor DNS durante la sesión.",
+            "description_pdns_single": "Significa que el servidor {} probablemente no resuelve a ningún nombre de dominio o su resolución ha sido cacheada por el dispositivo. Sin embargo, el servicio de DNS pasivo ip.thc.org indica que esta dirección IP ha sido resuelta al menos por {}. Por favor, compruebe si este host aparece en otras alertas.",
+            "description_pdns": "Significa que el servidor {} probablemente no resuelve a ningún nombre de dominio o su resolución ha sido cacheada por el dispositivo. Sin embargo, el servicio de DNS pasivo ip.thc.org indica que esta dirección IP ha sido resuelta al menos por {} y {} dominios adicionales. Por favor, compruebe si este host aparece en otras alertas.",
+            "description_pdns_none": "El servicio de DNS pasivo ip.thc.org no devolvió ningún nombre de dominio asociado a esta dirección IP.",
+            "umbrella_top500k_note": "Este dominio está presente en el Top 500K de Cisco Umbrella."
         },
         "IOC-01": {
             "title": "Se ha realizado una conexión a {} ({}) que está etiquetada como {}.",
@@ -72,6 +77,10 @@
             "title": "Al menos una aplicación utiliza consultas DNS cifradas.",
             "description": "El servidor DNS sobre HTTPs {} fue contactado durante la captura. Esto parece indicar que al menos una aplicación utiliza esta técnica para cifrar sus solicitudes de DNS. Esta característica limita las capacidades de escaneo de SpyGuard. Si esta función no está habilitada en el dispositivo analizado, puede valer la pena averiguar qué aplicación está utilizando este método."
         },
+        "IOC-14": {
+            "title": "Conexión a un sistema autónomo sospechoso (AS{} {}).",
+            "description": "El host {} ({}) pertenece al sistema autónomo AS{} {}, que es conocido por ser utilizado en actividades cibercriminales. Si aparecen otras alertas relacionadas con este host, se debe realizar un análisis más profundo del dispositivo."
+        },
         "ACT-01": {
             "title": "El dominio {} está usando un servidor de nombres sospechoso ({}).",
             "description": "El nombre de dominio {} usa un servidor de nombres que ha sido explícitamente etiquetado como asociado a actividad maliciosa. Muchos ciberdelincuentes y otros actores de amenazas utilizan este tipo de registradores ya que aceptan criptomonedas y pagos anónimos. Se recomienda investigar este dominio y la aplicación en ejecución asociada mediante un análisis forense del dispositivo."
@@ -82,11 +91,11 @@
         },
         "SSL-01": {
             "title": "Conexión SSL realizada mediante un puerto no standard ({}) a {}",
-            "description": "Las conexiones SSL desde dispositivos móviles usando puertos no standard no son muy comunes. Aunque pudiera ser totalmente legítima, recomendamos verificar la reputación de {}, comprobando su registro WHOIS, su sistema autónomo asociado y su fecha de creación mediante su búsqueda en Internet."
+            "description": "Las conexiones SSL desde dispositivos móviles usando puertos no estándar no son muy comunes. Aunque pudiera ser totalmente legítima, recomendamos verificar la reputación de {}, comprobando su registro WHOIS, su sistema autónomo asociado y su fecha de creación mediante su búsqueda en Internet."
         },
         "SSL-02": {
-            "title": "Conexión SSL a {} està usando un certificado gratuito",
-            "description": "Certificados gratuitos - como Let's Encrypt — son ampliamente utilizados por servidores de control asociados a software malicioso o webs de phishing. Recomendamos verificar el host asociado a esta certificado comprobando el nombre de dominio, su fecha de creación y verificando su reputación en Internet."
+            "title": "Conexión SSL a {} está usando un certificado gratuito",
+            "description": "Certificados gratuitos — como Let's Encrypt — son ampliamente utilizados por servidores de comando y control asociados a software malicioso o páginas web de phishing. Recomendamos verificar el host asociado a este certificado comprobando el nombre de dominio, su fecha de creación y su reputación en Internet."
         },
         "SSL-03": {
             "title": "El certificado asociado a {} es autofirmado.",
@@ -94,7 +103,7 @@
         },
         "SSL-04": {
             "title": "El certificado asociado con {} está vinculado a una actividad maliciosa ({}).",
-            "description": "El certificado asociado con server {} ha sido categorizado explícitamente como malicioso. Su dispositivo parece comprometido y necesita ser investigado por un equipo profesional."
+            "description": "El certificado asociado con el servidor {} ha sido categorizado explícitamente como malicioso. Su dispositivo parece comprometido y necesita ser investigado por un equipo profesional."
         },
         "SSL-05": {
             "title": "La configuración SSL de {} está vinculada a una actividad maliciosa ({}).",
@@ -103,6 +112,10 @@
         "ADV-01": {
             "title": "Compruebe las alertas para {}",
             "description": "Por favor, verifique la reputación del host {}, ya que parece ser malicioso por aparecer en {} alertas durante la sesión."
+        },
+        "UMBRELLA-01": {
+            "title": "El dominio {} no está en el top 500K de Cisco Umbrella",
+            "description": "El dominio {} no figura entre los 500000 nombres más consultados en la telemetría DNS global de Cisco Umbrella. No prueba actividad maliciosa —muchos sitios legítimos son poco frecuentes—, pero conviene verificar el host, sobre todo si otras alertas lo citan."
         },
         "SNORT-01": {
             "title": "Regla Suricata activada: {}",

@@ -18,7 +18,12 @@
         },
         "PROTO-05": {
             "title": "O servidor {} não foi resolvido por nenhuma consulta de DNS durante a sessão",
-            "description": "Isso significa provavelmente que o servidor {} não foi resolvido por nenhum nome de domínio ou a resolução já foi armazenada pelo dispositivo. Se o host aparecer em outros alertas, verifique-os."
+            "description": "Isso significa provavelmente que o servidor {} não foi resolvido por nenhum nome de domínio ou a resolução já foi armazenada pelo dispositivo. Se o host aparecer em outros alertas, verifique-os.",
+            "title_pdns": "O servidor {} ({}) não foi resolvido por nenhuma consulta de DNS durante a sessão",
+            "description_pdns_single": "Isso significa provavelmente que o servidor {} não foi resolvido por nenhum nome de domínio ou a resolução já foi armazenada pelo dispositivo. No entanto, o serviço de DNS passivo ip.thc.org indica que este endereço IP foi resolvido ao menos por {}. Se o host aparecer em outros alertas, verifique-os.",
+            "description_pdns": "Isso significa provavelmente que o servidor {} não foi resolvido por nenhum nome de domínio ou a resolução já foi armazenada pelo dispositivo. No entanto, o serviço de DNS passivo ip.thc.org indica que este endereço IP foi resolvido ao menos por {} e {} outros domínios. Se o host aparecer em outros alertas, verifique-os.",
+            "description_pdns_none": "O serviço de DNS passivo ip.thc.org não devolveu qualquer nome de domínio associado a este endereço IP.",
+            "umbrella_top500k_note": "Este domínio está presente no Top 500K do Cisco Umbrella."
         },
         "IOC-01": {
             "title": "Uma conexão foi estabelecida com {} ({}) e marcada como {}.",
@@ -66,11 +71,15 @@
         },
         "IOC-12": {
             "title": "Um aplicativo solicita um serviço legítimo que pode ter um uso duplo",
-            "description": "O servidor {} é usado para fins legítimos. Contudo, alguns atacantes podem usá- lo para interagir com os seus implantes. É aconselhável verificar se o dispositivo analisado contém um aplicativo legítimo que usa esse serviço."
+            "description": "O servidor {} é usado para fins legítimos. Contudo, alguns atacantes podem usá-lo para interagir com os seus implantes. É aconselhável verificar se o dispositivo analisado contém um aplicativo legítimo que usa esse serviço."
         },
         "IOC-13": {
             "title": "Pelo menos um aplicativo usa consultas DNS criptografadas.",
             "description": "O servidor DNS over https {} foi contatado durante a captura. Isso parece indicar que pelo menos um aplicativo usa essa técnica para criptografar suas solicitações de DNS. Esse recurso limita os recursos de verificação do SpyGuard. Se esse recurso não estiver ativado no dispositivo analisado, pode valer a pena descobrir qual aplicativo está usando esse método."
+        },
+        "IOC-14": {
+            "title": "Conexão a um sistema autónomo suspeito (AS{} {}).",
+            "description": "O host {} ({}) pertence ao sistema autónomo AS{} {}, conhecido por ser usado em atividades cibercriminosas. Se surgirem outros alertas relacionados com este host, deverá ser realizada uma investigação mais aprofundada do dispositivo."
         },
         "ACT-01": {
             "title": "O domínio {} está usando um servidor de nomes suspeito ({}).",
@@ -82,7 +91,7 @@
         },
         "SSL-01": {
             "title": "Conexão SSL feita em uma porta não padrão ({}) para {}",
-            "description": "Não é comum ver conexões SSL a partir de dispositivos móveis usando portas não padrão. Mesmo que a conexão pareça ser autêntica, é recomendável analisar a reputação de {} verificando pesquisando na internet o registro de domínio, o sistema autônomo associado e a data de criação."
+            "description": "Não é comum ver conexões SSL a partir de dispositivos móveis usando portas não padrão. Mesmo que isso possa ser legítimo, é recomendável analisar a reputação de {} verificando o registro WHOIS, o sistema autônomo associado e a data de criação, além de pesquisar na internet."
         },
         "SSL-02": {
             "title": "Uma conexão SSL com {} está usando um certificado gratuito.",
@@ -102,7 +111,11 @@
         },
         "ADV-01": {
             "title": "Verifique os alertas para {}",
-            "description": "Verifique a reputação do host {}, este parece ser malicioso, pois acionou alertas para {} durante a sessão."
+            "description": "Verifique a reputação do host {}. Ele parece ser malicioso, pois acionou {} alertas durante a sessão."
+        },
+        "UMBRELLA-01": {
+            "title": "O domínio {} não está no top 500K da Cisco Umbrella",
+            "description": "O domínio {} não aparece entre os 500000 nomes mais consultados na telemetria DNS global da Cisco Umbrella. Isso não prova atividade maliciosa — muitos sites legítimos são pouco comuns —, mas vale verificar o host, especialmente se outros alertas o mencionarem."
         },
         "SNORT-01": {
             "title": "Regra do Suricata acionada: {}",

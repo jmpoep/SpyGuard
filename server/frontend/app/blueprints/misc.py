@@ -8,6 +8,7 @@ from app.classes.capture import stop_monitoring
 import re
 import sys
 import os
+import sqlite3
 
 misc_bp = Blueprint("misc", __name__)
 
@@ -29,7 +30,7 @@ def api_reboot():
         Reboot the device
     """
     if read_config(("frontend", "reboot_option")):
-        sp.Popen("shutdown -r now", shell=True)
+        sp.Popen(["shutdown", "-r", "now"])
         return jsonify({"mesage": "Let's reboot."})
     else:
         return jsonify({"message": "Option disabled", "status": False})
@@ -68,7 +69,7 @@ def get_config():
         "battery_level" : get_battery_level(),
         "wifi_level" : get_wifi_level(),
         "virtual_keyboard": read_config(("frontend", "virtual_keyboard")),
-        "download_links": read_config(("frontend", "download_links")),
+        "capture_export": effective_capture_export(),
         "sparklines": read_config(("frontend", "sparklines")),
         "shutdown_option": read_config(("frontend", "shutdown_option")),
         "backend_option": read_config(("frontend", "backend_option")),
@@ -76,7 +77,8 @@ def get_config():
         "iface_out": read_config(("network", "out")),
         "user_lang": read_config(("frontend", "user_lang")),
         "choose_net": read_config(("frontend", "choose_net")),
-        "slideshow":  read_config(("frontend", "slideshow")),
+        "slideshow": read_config(("frontend", "slideshow"), True),
+        "ui_zoom": read_config(("frontend", "ui_zoom"), 100),
         "iocs_number" : get_iocs_number()
     })
 
@@ -88,3 +90,49 @@ def battery_level():
     return jsonify({
         "battery_level" : get_battery_level()
     })
+
+
+@misc_bp.route("/whitelist/<path:host>", methods=["GET"])
+def whitelist_host(host):
+    """Add a host/ip/cidr to the local whitelist DB (used by analysis)."""
+    try:
+        element = (host or "").strip().lower()
+        element = element.rstrip(".")
+        if not element:
+            return jsonify({"status": False, "message": "Empty element", "element": ""})
+
+        # Infer type (minimal, matches analysis whitelist types).
+        elem_type = "domain"
+        if "/" in element:
+            elem_type = "cidr"
+        elif re.match(r"^\d{1,3}(?:\.\d{1,3}){3}$", element):
+            # basic ipv4 sanity
+            parts = element.split(".")
+            if all(p.isdigit() and 0 <= int(p) <= 255 for p in parts):
+                elem_type = "ip4addr"
+        elif ":" in element and re.match(r"^[0-9a-f:]+$", element):
+            elem_type = "ip6addr"
+        elif re.match(r"^(?:as)?[0-9]{1,10}$", element):
+            s = element[2:] if element.startswith("as") else element
+            if s.isdigit():
+                nz = s.lstrip("0") or "0"
+                element = nz
+                elem_type = "asn"
+
+        with sqlite3.connect("/usr/share/spyguard/database.sqlite3") as c:
+            cur = c.cursor()
+            # ensure table exists (older installs should already have it).
+            cur.execute(
+                "CREATE TABLE IF NOT EXISTS whitelist (id INTEGER PRIMARY KEY AUTOINCREMENT, element TEXT, type TEXT, source TEXT, added_on INTEGER)"
+            )
+            cur.execute("SELECT 1 FROM whitelist WHERE element = ? LIMIT 1", (element,))
+            if cur.fetchone():
+                return jsonify({"status": False, "message": "Element already whitelisted", "element": element, "type": elem_type})
+            cur.execute(
+                "INSERT INTO whitelist (element, type, source, added_on) VALUES (?, ?, ?, strftime('%s','now'))",
+                (element, elem_type, "frontend"),
+            )
+            c.commit()
+        return jsonify({"status": True, "message": "Element whitelisted", "element": element, "type": elem_type})
+    except Exception as e:
+        return jsonify({"status": False, "message": f"Whitelist failed: {str(e)}"})

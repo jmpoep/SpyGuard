@@ -6,7 +6,7 @@
         },
         "PROTO-02": {
             "title": "{} Połączenie z {} do portu większego lub równego {}.",
-            "description": "{}Zaobserwowano połączenie z {} do portu {}. Użycie niestandardowych portów może wskazywać na złośliwą komunikację. Zaleca się sprawdzenie reputacji hosta poprzez przejrzenie innych ostrzeżeń oraz przeszukanie internetu."
+            "description": "Zaobserwowano {} połączenie(-a) z {} do portu {}. Użycie niestandardowych portów może wskazywać na złośliwą komunikację. Zaleca się sprawdzenie reputacji hosta poprzez przejrzenie innych ostrzeżeń oraz przeszukanie internetu."
         },
         "PROTO-03": {
             "title": "Komunikacja HTTP z hostem {}.",
@@ -18,11 +18,16 @@
         },
         "PROTO-05": {
             "title": "Serwer {} nie został rozwiązany poprzez zapytanie DNS podczas badania.",
-            "description": "Oznacza to, że serwer {} nie został odwzorowany z zapytania o jakąkolwiek domenę lub urzadzenie wykorzystało wartość z cache. Przyjrzyj się temu hostowi jeśli pojawia się w innych ostrzeżeniach."
+            "description": "Oznacza to, że serwer {} nie został odwzorowany z zapytania o jakąkolwiek domenę lub urządzenie wykorzystało wartość z cache. Przyjrzyj się temu hostowi, jeśli pojawia się w innych ostrzeżeniach.",
+            "title_pdns": "Serwer {} ({}) nie został rozwiązany poprzez zapytanie DNS podczas badania.",
+            "description_pdns_single": "Oznacza to, że serwer {} nie został odwzorowany z zapytania o jakąkolwiek domenę lub urządzenie wykorzystało wartość z cache. Jednak usługa pasywnego DNS ip.thc.org wskazuje, że ten adres IP był rozwiązywany co najmniej przez {}. Przyjrzyj się temu hostowi, jeśli pojawia się w innych ostrzeżeniach.",
+            "description_pdns": "Oznacza to, że serwer {} nie został odwzorowany z zapytania o jakąkolwiek domenę lub urządzenie wykorzystało wartość z cache. Jednak usługa pasywnego DNS ip.thc.org wskazuje, że ten adres IP był rozwiązywany co najmniej przez {} oraz {} innych domen. Przyjrzyj się temu hostowi, jeśli pojawia się w innych ostrzeżeniach.",
+            "description_pdns_none": "Usługa pasywnego DNS ip.thc.org nie zwróciła żadnej domeny skojarzonej z tym adresem IP.",
+            "umbrella_top500k_note": "Ta domena znajduje się w Top 500K Cisco Umbrella."
         },
         "IOC-01": {
             "title": "Nawiązano połączenie z  {} ({}), który jest oznaczony jako {}.",
-            "description": "Serwer {} został dodany na listę podejrzanych adresów w związku ze złośliwym zachowaniem. Prawodpodobnie Twoje urządzenie jest skompromitowane i powinno zostać poddane dokładniejszej analizie przez profesjonalistę od bezpieczeństwa IT."
+            "description": "Serwer {} został dodany na listę podejrzanych adresów w związku ze złośliwym zachowaniem. Prawdopodobnie Twoje urządzenie jest skompromitowane i powinno zostać poddane dokładniejszej analizie przez specjalistę ds. bezpieczeństwa IT."
         },
         "IOC-02": {
             "title": "Komunikacja z {} w sieci  {}, która jest oznaczona jako {}.",
@@ -45,20 +50,20 @@
             "description": "Nazwa domenowa {} używa podejrzanej domeny najwyższego poziomu ({}). Pomimo, że sama w sobie nie złośliwa, ta domena najwyższego poziomu jest regularnie używana przez cyberprzestępców lub atakujących sponsorowanych przez państwa. Sprawdź domenę poprzez wyszukanie informacji o niej. Jeśli inne ostrzeżenia dotyczą tego adresu jest to bardzo podejrzane."
         },
         "IOC-07": {
-            "title": "A certificate associated to {} activities have been found in the communication to {}.",
-            "description": "The certificate ({}) associated to {} has been explicitly tagged as malicious. This indicates that your device is likely compromised and need a forensic analysis."
+            "title": "W komunikacji z {} wykryto certyfikat powiązany z aktywnością {}.",
+            "description": "Certyfikat ({}) powiązany z {} został jednoznacznie oznaczony jako złośliwy. Oznacza to, że Twoje urządzenie jest prawdopodobnie skompromitowane i wymaga analizy informatyki śledczej."
         },
         "IOC-08": {
-            "title": "An HTTP request have been done to {} which is tagged as {}.",
-            "description": "The domain name {} seen in the capture has been explicitly tagged as malicious. This indicates that your device is likely compromised and needs to be investigated deeply."
+            "title": "Zaobserwowano żądanie HTTP do {} oznaczone jako {}.",
+            "description": "Nazwa domenowa {} zaobserwowana w ruchu sieciowym została jednoznacznie oznaczona jako złośliwa. Oznacza to, że Twoje urządzenie jest prawdopodobnie skompromitowane i powinno zostać poddane dokładniejszej analizie."
         },
         "IOC-09": {
-            "title": "An HTTP request have been done to the domain {} which is a Free DNS.",
-            "description": "The domain name {} is using a Free DNS service. This kind of service is commonly used by cybercriminals or state-sponsored threat actors during their operations. It is very suspicious that an application running in background use this kind of service, please investigate."
+            "title": "Zaobserwowano żądanie HTTP do domeny {} korzystającej z usługi Free DNS.",
+            "description": "Nazwa domenowa {} używa usługi Free DNS. Ten rodzaj usług jest często używany przez cyberprzestępców lub atakujących sponsorowanych przez państwa podczas ich działań. To bardzo podejrzane, że aplikacja działająca w tle używa tego rodzaju usługi — należy to zbadać."
         },
         "IOC-10": {
-            "title": "An HTTP request have been done to the domain {} which contains a suspect TLD.",
-            "description": "The domain name {} is using a suspect Top Level Domain ({}). Even not malicious, this non-generic TLD is used regularly by cybercrime or state-sponsored operations. Please check this domain by searching it on an internet search engine. If other alerts are related to this host, please consider it as very suspicious."
+            "title": "Zaobserwowano żądanie HTTP do domeny {} zawierającej podejrzany TLD.",
+            "description": "Nazwa domenowa {} używa podejrzanej domeny najwyższego poziomu ({}). Nawet jeśli nie jest to złośliwe samo w sobie, taki niegeneryczny TLD jest regularnie używany przez cyberprzestępców lub atakujących sponsorowanych przez państwa. Sprawdź domenę, wyszukując informacje o niej w internecie. Jeśli inne ostrzeżenia dotyczą tego hosta, jest to bardzo podejrzane."
         },
         "IOC-11": {
             "title": "Połączenie z {} ({}), który jest określany jako węzeł sieci TOR.",
@@ -72,9 +77,13 @@
             "title": "Co najmniej jedna aplikacja używa szyfrowania zapytań DNS.",
             "description": "Skorzystano z serwera {} DNS over HTTPs (DoH) podczas badania. Wygląda na to, że co najmniej jedna aplikacja używa tej metody w celu szyfrowania zapytań DNS. Ogranicza to możliwościa przeglądania ruchu przez SpyGuard. Jeśli ta funkcja nie jest włączona na urządzeniu, warto dowiedzieć się, która aplikaja używa tej metody."
         },
+        "IOC-14": {
+            "title": "Połączenie z podejrzanym systemem autonomicznym (AS{} {}).",
+            "description": "Host {} ({}) należy do systemu autonomicznego AS{} {}, który jest znany z wykorzystywania w działalności cyberprzestępczej. Jeśli pojawią się inne alerty dotyczące tego hosta, należy przeprowadzić pogłębioną analizę urządzenia."
+        },
         "ACT-01": {
             "title": "Domena {} używa podejrzanego serwera nazw ({}).",
-            "description": "Nazwa domenowa {} używa serwera nazwa, który został jednoznacznie oznaczony jako skojarzony ze złośliwymi działaniami. Wielu cybeprzestępców oraz atakujących sponsorowanych przez państwa używa tego rodzaju rejestratorów nazw ponieważ pozwalają na płatności kryptowalutami oraz płatności anonimowe. Zaleca się zbadać tą domenę oraz aplikacje, które ją wykorzystują poprzez analizę telefonu metodami informatyki śledczej."
+            "description": "Nazwa domenowa {} używa serwera nazw, który został jednoznacznie oznaczony jako skojarzony ze złośliwymi działaniami. Wielu cyberprzestępców oraz atakujących sponsorowanych przez państwa używa tego rodzaju rejestratorów, ponieważ pozwalają na płatności kryptowalutami oraz płatności anonimowe. Zaleca się zbadać tę domenę oraz aplikacje, które ją wykorzystują, poprzez analizę telefonu metodami informatyki śledczej."
         },
         "ACT-02": {
             "title": "Domena {} został stworzona całkiem niedawno ({} dni temu).",
@@ -103,6 +112,10 @@
         "ADV-01": {
             "title": "Check the alerts for {}",
             "description": "Please, check the reputation of the host {}, this one seems to be malicious as it leveraged {} alerts during the session."
+        },
+        "UMBRELLA-01": {
+            "title": "Domena {} nie znajduje się w top 500K Cisco Umbrella",
+            "description": "Domena {} nie występuje wśród 500000 najczęściej odpytywanych nazw w globalnej telemetrii DNS Cisco Umbrella. To nie dowód złośliwości — wiele legalnych witryn jest rzadkich — warto jednak zweryfikować hosta, zwłaszcza przy innych alertach."
         },
         "SNORT-01": {
             "title": "Zadziałała reguła Suricata: {}",

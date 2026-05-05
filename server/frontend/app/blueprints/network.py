@@ -34,3 +34,10 @@ def api_set_wifi():
 def api_start_ap():
     """ Start an access point """
     return jsonify(network.start_hotspot())
+
+
+@network_bp.route("/ap/stop", methods=["GET"])
+def api_stop_ap():
+    """ Stop (delete) the current access point connection """
+    ok = network.delete_hotspot()
+    return jsonify({"status": bool(ok), "message": "AP stopped" if ok else "No active hotspot"})

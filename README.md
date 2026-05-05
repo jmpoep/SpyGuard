@@ -1,5 +1,10 @@
 ![title](https://user-images.githubusercontent.com/25131750/200111909-e0d10587-014a-410c-be05-e7e89cf6c9f5.gif)
 
+
+> [!IMPORTANT]
+> Version 2 finally emerged after two years spent deep in a family-focused “tunnel,” marking a return to the project after an extended period away. An update of Suricata introduced breaking changes in the detection mechanism; version 2 addresses these changes while further enhancing the detection of suspicious network flows. Please follow these instructions to switch from the V1 to V2 if you've already installed Spyguard.
+
+
 ### Description 
 
 SpyGuard is a forked and enhanced version of [TinyCheck](https://github.com/KasperskyLab/TinyCheck), developed by the same author when he was working at Kaspersky. SpyGuard's main objective is to detect signs of compromise by monitoring network flows transmitted by a device. 

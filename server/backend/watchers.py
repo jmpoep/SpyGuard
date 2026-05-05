@@ -1,23 +1,78 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""Parse watchers from config and pull IOCs / whitelist / MISP; refresh Umbrella top-1M."""
+
 from app.utils import get_watchers
 from app.classes.iocs import IOCs
 from app.classes.whitelist import WhiteList
 from app.classes.misp import MISP
 
-import requests
+import io
 import json
+import os
+import requests
 import urllib3
+import zipfile
 import time
+from datetime import datetime, timezone
 from multiprocessing import Process
 
-"""
-    This file is parsing the watchers present
-    in the configuration file. This in order to get
-    automatically new iocs / elements from remote
-    sources without user interaction.
-"""
+
+UMBRELLA_TOP1M_ZIP_URL = "https://s3-us-west-1.amazonaws.com/umbrella-static/top-1m.csv.zip"
+UMBRELLA_JSON_PATH = "/usr/share/spyguard/assets/umbrella-top-1m.json"
+
+IP2ASN_V4_TSV_GZ_URL = "https://iptoasn.com/data/ip2asn-v4.tsv.gz"
+IP2ASN_V4_TSV_GZ_PATH = "/usr/share/spyguard/assets/ip2asn-v4.tsv.gz"
+
+
+def download_umbrella_top1m_json():
+    """Fetch Cisco Umbrella Top 1M (CSV in zip), write domains as JSON for analysis."""
+    r = requests.get(UMBRELLA_TOP1M_ZIP_URL, timeout=180)
+    r.raise_for_status()
+    zf = zipfile.ZipFile(io.BytesIO(r.content))
+    csv_names = [n for n in zf.namelist() if n.lower().endswith(".csv")]
+    if not csv_names:
+        raise ValueError("No CSV found in Umbrella zip")
+    domains = []
+    with zf.open(csv_names[0]) as raw:
+        for i, line in enumerate(raw):
+            if i >= 1_000_000:
+                break
+            try:
+                s = line.decode("utf-8", errors="replace").strip()
+            except Exception:
+                continue
+            if not s or "," not in s:
+                continue
+            _, dom = s.split(",", 1)
+            dom = dom.strip().lower().rstrip(".")
+            if dom:
+                domains.append(dom)
+    payload = {
+        "source": UMBRELLA_TOP1M_ZIP_URL,
+        "fetched_at": datetime.now(timezone.utc).isoformat(),
+        "format": "rank,domain",
+        "count": len(domains),
+        "domains": domains,
+    }
+    os.makedirs(os.path.dirname(UMBRELLA_JSON_PATH), exist_ok=True)
+    with open(UMBRELLA_JSON_PATH, "w", encoding="utf-8") as out:
+        json.dump(payload, out, ensure_ascii=False)
+
+
+def download_ip2asn_v4_tsv_gz():
+    """Fetch ip2asn IPv4 TSV (gzip) for offline ASN lookups during analysis."""
+    r = requests.get(IP2ASN_V4_TSV_GZ_URL, timeout=600, stream=True)
+    r.raise_for_status()
+    os.makedirs(os.path.dirname(IP2ASN_V4_TSV_GZ_PATH), exist_ok=True)
+    tmp = IP2ASN_V4_TSV_GZ_PATH + ".part"
+    with open(tmp, "wb") as out:
+        for chunk in r.iter_content(chunk_size=1024 * 1024):
+            if chunk:
+                out.write(chunk)
+    os.replace(tmp, IP2ASN_V4_TSV_GZ_PATH)
+
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -136,6 +191,16 @@ def watch_misp():
                 instances.pop(i)
         if instances: time.sleep(60)
 
+
+try:
+    download_umbrella_top1m_json()
+except Exception as exc:
+    print("[watchers] Cisco Umbrella top-1m download failed: {}".format(exc))
+
+try:
+    download_ip2asn_v4_tsv_gz()
+except Exception as exc:
+    print("[watchers] ip2asn-v4.tsv.gz download failed: {}".format(exc))
 
 p1 = Process(target=watch_iocs)
 p2 = Process(target=watch_whitelists)

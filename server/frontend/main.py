@@ -9,8 +9,10 @@ from app.blueprints.analysis import analysis_bp
 from app.blueprints.save import save_bp
 from app.blueprints.misc import misc_bp
 from app.utils import read_config
+from app.spyguard_logging import get_logger
 
 app = Flask(__name__, template_folder="/usr/share/spyguard/app/frontend/dist")
+log = get_logger()
 
 @app.route("/", methods=["GET"])
 def main():
@@ -25,7 +27,7 @@ def get_file(p, path):
         Return the frontend assets (css, js files, fonts etc.)
     """
     rp = "/usr/share/spyguard/app/frontend/dist/{}".format(p)
-    return send_from_directory(rp, path) if p in ["css", "fonts", "js", "img"] else redirect("/")
+    return send_from_directory(rp, path) if p in ["assets", "css", "fonts", "js", "img"] else redirect("/")
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -45,6 +47,7 @@ if __name__ == '__main__':
         port = int(read_config(("frontend", "http_port")))
     except:
         port = 80
+    log.info("frontend service starting on port=%s remote_access=%s", port, bool(read_config(("frontend", "remote_access"))))
     if read_config(("frontend", "remote_access")):
         app.run(host="0.0.0.0", port=port)
     else:

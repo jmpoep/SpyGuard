@@ -9,8 +9,10 @@
         </div>
         <div class="modal-window" v-if="display_whitelist">
             <div class="modal-content">
-                <p v-html="$t('modals.want_to_whitelist').replace('{host}', host)"></p>
-                <button class="btn btn-primary" v-on:click="hide_modal()">{{ $t("modals.no_go_back") }}</button> <button class="btn btn-primary" v-on:click="add_whitelist()">{{ $t("modals.yes_continue") }}</button>
+                <p v-if="whitelist_success" v-html="$t('modals.whitelist_success', { host: host || '—' })"></p>
+                <p v-else v-html="$t('modals.want_to_whitelist', { host: host || '—' })"></p>
+                <button class="btn btn-primary" v-if="!whitelist_success" v-on:click="hide_modal()">{{ $t("modals.no_go_back") }}</button>
+                <button class="btn btn-primary" style="margin-left:10px" v-if="!whitelist_success" v-on:click="add_whitelist()">{{ $t("modals.yes_continue") }}</button>
             </div>
         </div>
         <div class="modal-window" v-if="display_wifi">
@@ -35,8 +37,8 @@
 <script>
 import axios from 'axios'
 import router from '../router'
-import SimpleKeyboard from "./SimpleKeyboard";
-import { EventBus } from "../main.js"
+import SimpleKeyboard from "./SimpleKeyboard.vue";
+import { bus } from "@/bus"
 
 export default {
     name: 'Modals',
@@ -47,6 +49,8 @@ export default {
             error: false,
             wifi_success: false,
             password: "",
+            host: "",
+            whitelist_success: false,
             capture_token: "",
             display_whitelist: false,
             display_shudown: false,
@@ -71,7 +75,15 @@ export default {
         },
         add_whitelist: function(){
             axios.get(`/api/misc/whitelist/${this.host}`, { timeout: 30000 })
-            this.display = false
+            .then((response) => {
+                if (response && response.data && response.data.status === true) {
+                    // Prefer the normalized element returned by API if present.
+                    if (response.data.element) this.host = String(response.data.element)
+                    this.whitelist_success = true
+                    setTimeout(() => { this.display = false }, 2000)
+                }
+            })
+            .catch((err) => { console.log(err) })
         },
         onChange(input) {
             this.input = input
@@ -104,7 +116,7 @@ export default {
                         setTimeout(() => {
                             this.display = false
                             this.btn_wifi_val = this.$t("wifi-select.connect_to_it")
-                            router.push('generate-ap'); 
+                            router.push({ name: 'generate-ap' }); 
                         }, 1000);
                     } else {
                         this.btn_wifi_val = this.$t('wifi-select.wifi_not_connected')
@@ -118,7 +130,7 @@ export default {
         }
     },
     created: function() {
-        EventBus.$on("showModal", args => {
+        bus.on("showModal", args => {
             this.input = ""
             if(args.action == "shutdown"){
                 this.show_keyboard = false
@@ -141,7 +153,8 @@ export default {
                 this.display_wifi = false
                 this.display_shudown = false
                 this.display_whitelist = true
-                this.host = args.host
+                this.host = (args && args.host != null) ? String(args.host).trim() : ""
+                this.whitelist_success = false
                 this.display = true
             }
         });

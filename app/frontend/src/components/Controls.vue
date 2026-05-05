@@ -23,7 +23,7 @@
 
 <script>
 import axios from 'axios'
-import { EventBus } from "../main.js"
+import { bus } from "@/bus"
 
 export default {
     name: 'Controls',
@@ -40,7 +40,10 @@ export default {
             wifi_icon: "",
             wifi_networks: [],
             iocs_number: 0,
-            internet: false
+            internet: false,
+            config_interval: null,
+            wifi_interval: null,
+            internet_interval: null
             }
     },
     methods: {
@@ -76,7 +79,8 @@ export default {
             window.location.href = "/"
         },
         load_config: function() {
-            setInterval(() => {
+            if (this.config_interval) return;
+            this.config_interval = setInterval(() => {
                 axios.get(`/api/misc/config`, { timeout: 60000 })
                     .then(response => {
                         this.shutdown_option = response.data.shutdown_option
@@ -125,13 +129,14 @@ export default {
             }
         }, 
         show_modal_shutdown: function(){
-            EventBus.$emit("showModal", {"action" : "shutdown"})
+            bus.emit("showModal", {"action" : "shutdown"})
         },
         show_modal_wifi: function(network_name){
-            EventBus.$emit("showModal", {"action" : "wifi", "network_name" : network_name})
+            bus.emit("showModal", {"action" : "wifi", "network_name" : network_name})
         },
         get_wifi_networks: function(){
-            setInterval(() => {
+            if (this.wifi_interval) return;
+            this.wifi_interval = setInterval(() => {
                 axios.get('/api/network/wifi/list', { timeout: 10000 })
                 .then(response => { 
                     this.wifi_networks = []
@@ -146,7 +151,8 @@ export default {
             }, 1000);
         },
         check_internet: function() {
-            setInterval(() => {
+            if (this.internet_interval) return;
+            this.internet_interval = setInterval(() => {
                 axios.get('/api/network/status', { timeout: 30000 })
                 .then(response => {
                     if (response.data.internet){
@@ -163,7 +169,7 @@ export default {
     },
     watch: {
         $route (){
-            if ( ["loader"].includes(this.$router.currentRoute.name)){
+            if ( ["loader"].includes(this.$route.name)){
                 this.display = false;
             } else {
                 this.display = true;
@@ -174,6 +180,14 @@ export default {
         this.load_config();
         this.check_internet();
         this.get_wifi_networks();
+        if ( ["loader"].includes(this.$route.name)){
+            this.display = false;
+        }
+    },
+    beforeUnmount: function() {
+        if (this.config_interval) clearInterval(this.config_interval);
+        if (this.wifi_interval) clearInterval(this.wifi_interval);
+        if (this.internet_interval) clearInterval(this.internet_interval);
     }
 }
 </script>

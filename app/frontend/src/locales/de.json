@@ -8,12 +8,24 @@
         "question": "Möchten Sie die erfassten Kommunikationsverbindungen analysieren?",
         "no_btn": "Nein, nur speichern",
         "yes_btn": "Ja, analysieren",
-        "please_wait_msg": "Bitte warten Sie, während die Analyse läuft …",
-        "some_time_msg": "Dies kann eine Weile dauern …"
+        "please_wait_msg": "Bitte warten Sie, während die Analyse läuft …",
+        "some_time_msg": "Dies kann eine Weile dauern …"
     },
     "capture": {
         "intercept_coms_msg": "Abfangen der Kommunikationsverbindungen von ",
-        "stop_btn": "Aufnahme beenden"
+        "tip_smartphone_events": "Wenn Sie ein Smartphone analysieren, deaktivieren Sie die mobilen Daten, vermeiden Sie das Surfen im Internet<br />und führen Sie Aktionen aus, zum Beispiel…",
+        "tip_send_sms": "Senden Sie eine Nachricht an einen lieben Menschen.",
+        "tip_check_mailbox": "Öffnen Sie die neueste E-Mail in Ihrer Mail-App.",
+        "tip_take_photo": "Machen Sie ein schönes, nicht identifizierbares Foto.",
+        "tip_move_phone": "Bewegen Sie sich mit Ihrem Telefon ein paar Meter.",
+        "tip_duration_ideal": "Ihre Aufnahme sollte mindestens 15 Minuten dauern, idealerweise 30 Minuten.",
+        "tip_coffee_tea": "Gönnen Sie sich ruhig einen Kaffee oder Tee.",
+        "stop_btn": "Aufnahme beenden",
+        "tip_smartphone_events_1": "Wenn Sie ein Smartphone analysieren, deaktivieren Sie die mobilen Daten…",
+        "tip_smartphone_events_2": "Deaktivieren Sie alle VPN‑Dienste auf dem Telefon.",
+        "tip_smartphone_events_3": "Vermeiden Sie das Surfen im Internet während der Aufnahme.",
+        "tip_smartphone_events_4": "Wir empfehlen jedoch, Aktionen auszuführen, zum Beispiel…",
+        "tip_begin": "Wir führen Sie durch einige Schritte, um<br />die Erfassung der Kommunikation Ihres Geräts zu optimieren."
     },
     "generate-ap": {
         "network_name": "Netzwerkname",
@@ -28,6 +40,7 @@
         "start_new_capture": "Neue Aufnahme starten",
         "save_capture": "Aufnahme speichern",
         "save": "Sichern",
+        "export_report": "Bericht exportieren",
         "print": "Drucken",
         "numbers": [
             "null",
@@ -50,7 +63,7 @@
         "moderate_msg": "Sie haben {nb} Warnungen der Stufe \"Mittel\":<br>Ihr Gerät könnte kompromittiert sein.",
         "low_msg": "Sie haben nur {nb} Warnungen der Stufe \"Niedrig\":<br> Überprüfen Sie sie gerne.",
         "save_report": "Bericht speichern",
-        "report_of": "Bericht zu",
+        "report_of": "Analysebericht für",
         "detection_methods": "Nachweismethoden:",
         "indicators": "Indikatoren",
         "heuristics": "Anomalien",
@@ -61,14 +74,21 @@
         "high": "Hoch",
         "moderate": "Mittel",
         "low": "Niedrig",
-        "uncat_coms_table" : "Kommunikation nicht kategorisiert",
-        "whitelisted_coms_table" : "Kommunikation auf der Whitelist",
-        "no_alerts_title" : "Die Analyse der Kommunikation Ihres Geräts hat zu keinen Warnungen geführt.",
-        "no_alerts_subtext" : "Unten können Sie die von ihm während der Erfassung ausgegebenen Mitteilungen sehen.",
-        "protocol" : "Protokoll",
-        "domain_name" : "Domain",
+        "uncat_coms_table": "Kommunikation nicht kategorisiert",
+        "whitelisted_coms_table": "Kommunikation auf der Whitelist",
+        "alerts_table": "Warnungen",
+        "no_alerts_title": "Die Analyse der Kommunikation Ihres Geräts hat zu keinen Warnungen geführt.",
+        "no_alerts_subtext": "Unten können Sie die von ihm während der Erfassung ausgegebenen Mitteilungen sehen.",
+        "protocol": "Protokoll",
+        "domain_name": "Domain",
         "ip_address": "IP-Adresse:",
-        "port" : "Port"
+        "port": "Port",
+        "host_prefix": "Host: ",
+        "ip_address_prefix": "IP-Adresse: ",
+        "analysis_health_title": "Analyse beeinträchtigt",
+        "analysis_health_offline": "Keine Internetverbindung während der Analyse. Etwa {lost}% der Analysefunktionen waren nicht verfügbar (Wirksamkeit: {eff}%).",
+        "analysis_health_degraded": "Einige externe Prüfungen sind fehlgeschlagen. Etwa {lost}% der Analysefunktionen könnten fehlen (Wirksamkeit: {eff}%).",
+        "analysis_health_degraded_with_checks": "Einige externe Prüfungen sind fehlgeschlagen ({checks}). Etwa {lost}% der Analysefunktionen könnten fehlen (Wirksamkeit: {eff}%)."
     },
     "wifi-select": {
         "wifi_connected": "Wi-Fi verbunden",
@@ -81,13 +101,47 @@
         "we_are_saving": "Wir speichern Ihre Aufnahme.",
         "tap_msg": "Sie können den USB-Stick antippen, um eine neue Aufnahme zu starten.",
         "capture_download": "Der Download der Aufnahme beginnt…",
-        "start_capture_btn": "Noch eine Aufnahme starten"
+        "start_capture_btn": "Noch eine Aufnahme starten",
+        "uploading_report": "Bericht wird hochgeladen…",
+        "capture_id": "Capture-ID",
+        "archive_password": "Archivpasswort",
+        "remote_download_hint": "Am Rechner verwenden Sie die Capture-ID und das Archivpasswort, um ein Archiv mit Ihrer Aufnahme von der Website SpyGuard.net herunterzuladen.",
+        "remote_download_hint_prefix": "Am Rechner verwenden Sie die Capture-ID und das Archivpasswort, um ein Archiv mit Ihrer Aufnahme von der Website ",
+        "remote_download_hint_suffix": " herunterzuladen.",
+        "upload_failed": "Bericht konnte nicht hochgeladen werden.",
+        "checking_connection": "Internetverbindung wird geprüft…",
+        "save_to_usb": "Stattdessen auf USB-Stick speichern",
+        "upload_errors": {
+            "ip_blocked": "Zugriff verweigert: Diese Verbindung ist vom Remote-Server vorübergehend gesperrt. Versuchen Sie es später erneut oder speichern Sie auf einen USB-Stick.",
+            "rate_limited": "Zu viele Upload-Versuche von diesem Netzwerk (Limit: {daily_limit} pro Tag). Versuchen Sie es später oder nutzen Sie einen USB-Stick.",
+            "file_too_large": "Das Archiv ist zu groß (max. {max_mb} MB).",
+            "missing_file": "Der Server hat keine Datei erhalten.",
+            "bad_zip": "Das Archiv wurde vom Server abgelehnt.",
+            "bad_zip_not_encrypted": "Der Server verlangt, dass alle Dateien im Archiv verschlüsselt sind.",
+            "bad_zip_structure": "Das Archiv enthält nicht genau die erwarteten Dateien.",
+            "server_error": "Fehler auf dem Remote-Server (HTTP {http_status}).",
+            "network": "Upload-Server nicht erreichbar. Prüfen Sie die Verbindung oder nutzen Sie einen USB-Stick.",
+            "prepare_failed": "Archiv konnte nicht für den Upload vorbereitet werden.",
+            "bad_token": "Ungültige Capture-Kennung.",
+            "capture_not_found": "Capture-Daten fehlen.",
+            "export_not_server": "Server-Export ist in der Konfiguration nicht aktiviert.",
+            "no_response": "Keine Antwort vom Upload-Server.",
+            "invalid_response": "Ungültige Antwort vom Upload-Server.",
+            "missing_capture_id": "Die Serverantwort enthält keine Capture-ID.",
+            "invalid_capture_id": "Der Server hat eine ungültige Capture-ID zurückgegeben.",
+            "cleanup_failed": "Upload erfolgreich, aber lokales Aufräumen ist fehlgeschlagen.",
+            "unknown": "Upload fehlgeschlagen."
+        },
+        "retry_upload": "Erneut hochladen",
+        "tap_card_msg": "Tippen Sie auf die Karte, um eine neue Aufnahme zu starten.",
+        "remote_download_hint_rich": "Am Rechner verwenden Sie die Capture-ID und das Archivpasswort, um ein Archiv mit Ihrer Aufnahme von der Website {site} herunterzuladen."
     },
     "modals": {
         "want_to_quit": "Möchten Sie die App schließen?",
         "no_go_back": "Nein, zurück kommen.",
         "yes_continue": "Ja, weiter machen",
         "please_give_the_password": "Bitte geben Sie das Netzwerkpasswort ein: ",
-        "want_to_whitelist" : "Möchten Sie <i class='ioc'>{host}</i> für die nächsten <br />Analysen hinzufügen?"
+        "want_to_whitelist": "Möchten Sie <i class='ioc'>{host}</i> für die nächsten <br />Analysen hinzufügen?",
+        "whitelist_success": "<i class='ioc'>{host}</i> wurde zur Whitelist hinzugefügt."
     }
 }

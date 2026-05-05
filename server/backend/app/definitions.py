@@ -19,6 +19,12 @@ definitions = {
             "name"  : "Network range",
             "auto"  : True
         },
+        {
+            "type"  : "asn",
+            "regex" : r"^(?:AS|as)?[0-9]{1,10}$",
+            "name"  : "Autonomous System (ASN)",
+            "auto"  : True
+        },
         { 
             "type"  : "domain",
             "regex" : r"^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$",
@@ -30,6 +36,12 @@ definitions = {
             "regex" : r"^[0-9a-f]{40}$",
             "name"  : "Certificate SHA1",
             "auto"  : True
+        },
+        {
+            "type"  : "issuerdn",
+            "regex" : r"^([a-z]{1,4}=[^,]+)(,\s*[a-z]{1,4}=[^,]+)*$",
+            "name"  : "Certificate Issuer DN",
+            "auto"  : False
         },
         { 
             "type"  : "jarm",
@@ -113,6 +125,12 @@ definitions = {
             "type"  : "cidr",
             "regex" : r"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\/([0-9]|[1-2][0-9]|3[0-2]))?$",
             "name"  : "Network range",
+            "auto"  : True
+        },
+        {
+            "type"  : "asn",
+            "regex" : r"^(?:as)?[0-9]{1,10}$",
+            "name"  : "Autonomous System (ASN)",
             "auto"  : True
         },
         { 

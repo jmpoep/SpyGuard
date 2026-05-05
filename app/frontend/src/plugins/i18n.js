@@ -1,19 +1,26 @@
-import Vue from 'vue'
-import VueI18n from 'vue-i18n'
+import { createI18n } from 'vue-i18n'
 
-Vue.use(VueI18n)
+import de from '@/locales/de.json'
+import en from '@/locales/en.json'
+import es from '@/locales/es.json'
+import fr from '@/locales/fr.json'
+import it from '@/locales/it.json'
+import pl from '@/locales/pl.json'
+import pt from '@/locales/pt.json'
+import ru from '@/locales/ru.json'
 
-export const i18n = new VueI18n({
+export default createI18n({
+  legacy: true,
   locale: 'en',
   fallbackLocale: 'en',
   messages: {
-    'en': require('@/locales/en.json'),
-    'fr': require('@/locales/fr.json'),
-    'es': require('@/locales/es.json'),
-    'ru': require('@/locales/ru.json'),
-    'pt': require('@/locales/pt.json'),
-    'it': require('@/locales/it.json'),
-    'de': require('@/locales/de.json'),
-    'pl': require('@/locales/pl.json')
-  }
+    de,
+    en,
+    es,
+    fr,
+    it,
+    pl,
+    pt,
+    ru,
+  },
 })

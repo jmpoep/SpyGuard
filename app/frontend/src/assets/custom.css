@@ -3,6 +3,7 @@
     --frame-color: #3a3a3a;
     --background-color-splash-screen: #111;
     --wrapper-background: #f7f8f9;
+    --shadow: 0 .05rem .3rem #d7d7d726;
   }
 
 @font-face {
@@ -61,6 +62,25 @@
     height: 100%;
 }
 
+.apcard-frame {
+    /* Centering is handled by `.center` (flex) to remain stable with CSS zoom. */
+    position: relative;
+    display: inline-block;
+    padding: 5px;
+    border: 3px solid #fff;
+    background-color: #fff;
+    border-radius: 12px;
+    box-sizing: border-box;
+    box-shadow: var(--shadow);
+}
+
+/* Same frame look as apcard, full width (e.g. report tables). */
+.apcard-frame.apcard-frame--wide {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+}
+
 .empty-subtitle {
     font-family: "Roboto";
 }
@@ -86,13 +106,9 @@
 
     .apcard {
         width: 400px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
         height: 170px;
         display: block;
-        border-radius: 5px;
+        border-radius: 10px;
     }
 
     .sparklines-container {
@@ -185,6 +201,7 @@
         width: 100%;
         background-color:var(--frame-color);
         height: 2rem;
+        padding-top:2px;
         z-index: 1;
         display:flex;
     }
@@ -203,10 +220,6 @@
 
     .apcard {
         width: 500px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
         height: fit-content;
         border-radius: 5px;
     }
@@ -270,6 +283,7 @@
     .controls {
         position:fixed;
         bottom:0;
+        padding-top:2px;
         width: 100%;
         background-color:var(--frame-color);
         height: 2rem;
@@ -286,27 +300,51 @@
 .wrapper {
     width:100%;
     height: calc( 100vh - 40px );
-    border: 5px solid var(--frame-color);
-    border-radius: 0.8em;
-    box-shadow: 0 0 0 0.6em var(--frame-color);
     background-color:var(--wrapper-background);
     overflow: auto;
+    position: relative;
 }
 
 .wrapper-dark {
     width:100%;
     height:100%;
     background-color:var(--background-color-splash-screen);
+    position: relative;
 }
 
 .center {
-    width: fit-content;
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: fit-content;
-    text-align:center;
+    /* Robust centering even when CSS zoom is enabled */
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+/* In flex layouts, some inline SVGs have `margin:auto` which pushes legends to the bottom.
+   Force a normal flow margin so legend stays right under the centered element. */
+.center > svg {
+    margin: 0 !important;
+}
+
+.center .legend {
+    margin-top: 14px;
+}
+
+.report-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap:6px;
+    margin-top: 10px;
+    flex-wrap: wrap;
 }
 
 .light-grey {
@@ -348,11 +386,6 @@ footer {
 .device-ctx-legend {
     font-size: 14px;
     color: #a6a6a6;
-    margin-top: 10px;
-    padding-top: 10px;
-    background-color: #fbfbfb;
-    padding: 10px;
-    border-radius: 5px;
 }
 
 .group-title {
@@ -376,6 +409,35 @@ footer {
 .legend {
     color:#9a9a9a;
     margin-bottom: 5px;
+}
+
+.report-cloud-card {
+    width: 600px;
+    max-width: 92vw;
+    min-height: auto;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+}
+
+.report-cloud-left {
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+.report-cloud-left-text {
+    margin: 0;
+}
+
+.report-cloud-site {
+    color: #3d3d3d;
+}
+
+
+.report-cloud-value {
+    word-break: break-all;
+    margin-top: 0.25rem;
+    margin-bottom: 0.85rem;
 }
 
 /* Scrollbar */
@@ -570,7 +632,6 @@ footer {
     list-style: none;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #EEE;
     box-shadow: 0 .05rem .3rem rgba(215, 215, 215, 0.15);
 }
 
@@ -1029,23 +1090,35 @@ ul {
 }
 
 .btn-whitelist {
-    margin-left: auto;
-    margin-right: 20px;
     font-size: 12px;
-    padding: 5px 10px 0px;
-    background: #FFF;
-    border-radius: 5px 5px 0px 0px;
+    padding: 5px 10px 5px;
+    background: #fff;
+    border-radius: 5px;
     border-top: 1px solid #EEE;
     color: #888282;
-    border-left: 1px solid #EEE;
-    border-right: 1px solid #EEE;
-    margin-bottom: -1px;
-    border-bottom: 1px solid #FFF;
+    border: 1px solid #EEE;
     cursor: pointer;
 }
 
 .btn-whitelist:hover {
     background: linear-gradient(#e6e6e6, #fff);
+}
+
+.alert-group {
+    border: 2px solid #fbfbfb;
+    border-radius: 10px;
+    box-shadow: 0 .05rem .3rem #d7d7d726;
+}
+
+.alert-group-summary > .title {
+    color: #545454;
+    margin-left: 5px;
+}
+.block-alerts {
+    padding: 10px;
+}
+.alert {
+    margin-top:15px;
 }
 
 .ioc {
@@ -1060,10 +1133,9 @@ ul {
     width: 100%;
     position: relative;
     background-color: #FFF;
-    border: 1px solid #eee;
     border-radius: 5px;
     padding:10px;
-    box-shadow: 0 .05rem .3rem hsla(0,0%,84.3%,.15);
+    box-shadow: 0 .25rem 1rem #30374226;
 }
 
 .table-uncat > thead > tr {

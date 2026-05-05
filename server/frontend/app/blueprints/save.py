@@ -19,3 +19,9 @@ def api_usb_list():
 def api_save_capture(token, method):
     """ Save the capture on the USB or for download """
     return save.save_capture(token, method)
+
+
+@save_bp.route("/upload-cloud/<token>", methods=["POST"])
+def api_upload_cloud(token):
+    """ Encrypt capture folder, upload to remote report API """
+    return save.upload_cloud(token)

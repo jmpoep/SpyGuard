@@ -1,8 +1,15 @@
 #!/bin/bash
+set -euo pipefail
+
 CURRENT_USER="${SUDO_USER}"
 SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
 HOST="$( hostname )"
 LOCALES=(de en es fr it pl pt ru)
+
+escape_sed_repl() {
+  # Escape replacement for sed s/// (handles / and &).
+  printf '%s' "$1" | sed -e 's/[\\/&]/\\&/g'
+}
 
 welcome_screen() {
 cat << "EOF"
@@ -21,10 +28,10 @@ set_userlang() {
     echo -e "\e[39m[+] Setting the user language...\e[39m"
     printf -v joined '%s/' "${LOCALES[@]}"
     echo -n "    Please choose a language for the reports and the user interface (${joined%/}): "
-    read lang
+    read -r lang
 
     if [[ " ${LOCALES[@]} " =~ " ${lang} " ]]; then
-        sed -i "s/userlang/${lang}/g" /usr/share/spyguard/config.yaml
+        sed -i "s/userlang/$(escape_sed_repl "${lang}")/g" /usr/share/spyguard/config.yaml
         echo -e "\e[92m    [✔] User language settled!\e[39m"
     else
         echo -e "\e[91m    [✘] You must choose between the languages proposed, let's retry.\e[39m"
@@ -45,7 +52,7 @@ set_credentials() {
     # Set the credentials to access to the backend.
     echo -e "\e[39m[+] Setting the backend credentials...\e[39m"
     echo -n "    Please choose a username for SpyGuard's backend: "
-    read login
+    read -r login
     echo -n "    Please choose a password for SpyGuard's backend: "
     read -s password1
     echo ""
@@ -53,10 +60,10 @@ set_credentials() {
     read -s password2
     echo ""
 
-    if [ $password1 = $password2 ]; then
+    if [[ "${password1}" == "${password2}" ]]; then
         password=$(echo -n "$password1" | sha256sum | cut -d" " -f1)
-        sed -i "s/userlogin/$login/g" /usr/share/spyguard/config.yaml
-        sed -i "s/userpassword/$password/g" /usr/share/spyguard/config.yaml
+        sed -i "s/userlogin/$(escape_sed_repl "${login}")/g" /usr/share/spyguard/config.yaml
+        sed -i "s/userpassword/$(escape_sed_repl "${password}")/g" /usr/share/spyguard/config.yaml
         echo -e "\e[92m    [✔] Credentials saved successfully!\e[39m"
     else
         echo -e "\e[91m    [✘] The passwords aren't equal, please retry.\e[39m"
@@ -67,8 +74,8 @@ set_credentials() {
 create_directory() {
     # Create the SpyGuard directory and move the whole stuff there.
     echo -e "[+] Creating SpyGuard folder under /usr/share/"
-    mkdir /usr/share/spyguard
-    cp -Rf ./* /usr/share/spyguard
+    mkdir -p /usr/share/spyguard
+    cp -Rf "${SCRIPT_PATH}/." /usr/share/spyguard
 }
 
 generate_certificate() {
@@ -141,11 +148,21 @@ EOL
 change_hostname() {
    # Changing the hostname to spyguard
    echo -e "[+] Changing the hostname to spyguard"
-   echo "spyguard" > /etc/hostname
-   sed -i "s/$HOST/spyguard/g" /etc/hosts
+   if [[ "$(cat /etc/hostname 2>/dev/null || true)" != "spyguard" ]]; then
+     echo "spyguard" > /etc/hostname
+   fi
+
+   # Update /etc/hosts safely (avoid global replacements).
+   if grep -qE '^[[:space:]]*127\.0\.1\.1[[:space:]]+' /etc/hosts; then
+     sed -i -E 's/^[[:space:]]*127\.0\.1\.1[[:space:]]+.*/127.0.1.1\tspyguard/' /etc/hosts
+   else
+     echo -e "127.0.1.1\tspyguard" >> /etc/hosts
+   fi
 
    # Adding spyguard.local to the /etc/hosts.
-   echo "127.0.0.1  spyguard.local" >> /etc/hosts
+   if ! grep -qE '^[[:space:]]*127\.0\.0\.1[[:space:]]+spyguard\.local([[:space:]]|$)' /etc/hosts; then
+     echo -e "127.0.0.1\tspyguard.local" >> /etc/hosts
+   fi
 }
 
 install_packages() {
@@ -159,13 +176,15 @@ packages=("tshark"
 	   "net-tools")
  
 echo -e "\e[39m[+] Checking dependencies...\e[39m"
+echo -e "\e[39m[+] Updating APT package lists...\e[39m"
+apt-get update
 for package in "${packages[@]}"
 do
     if dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -q -P '^install ok installed$'; then
         echo -e "\e[92m    [✔] $package is already installed\e[39m"
     else
         echo -e "\e[93m    [✘] $package is not installed, lets install it\e[39m"
-        apt-get install -y "$package"
+        DEBIAN_FRONTEND=noninteractive apt-get install -y "$package"
         if [ $? -eq 0 ]; then
             echo -e "\e[92m    [✔] $package was successfully installed\e[39m"
         else
@@ -185,7 +204,12 @@ create_venv() {
 
 get_version() {
     # Get the actual SpyGuard version
-    git tag | tail -n 1 | xargs echo -n > /usr/share/spyguard/VERSION
+    if command -v git >/dev/null 2>&1 && git -C "${SCRIPT_PATH}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+      git -C "${SCRIPT_PATH}" describe --tags --always 2>/dev/null | tr -d '\n' > /usr/share/spyguard/VERSION || true
+    fi
+    if [[ ! -s /usr/share/spyguard/VERSION ]]; then
+      echo -n "unknown" > /usr/share/spyguard/VERSION
+    fi
 }
 
 cleaning() {
@@ -199,8 +223,7 @@ cleaning() {
     # Disabling the suricata service
     systemctl disable suricata.service &> /dev/null
 
-    # Removing some useless dependencies.
-    apt autoremove -y &> /dev/null
+    # NOTE: avoid `apt autoremove` here; it can remove packages the user still wants.
 
     echo -e "\e[92m[+] Installation finished! You can open https://localhost:8443 to configure network settings.\e[39m"
 }
@@ -221,13 +244,23 @@ feeding_iocs() {
 if [[ $EUID -ne 0 ]]; then
     echo "This must be run as root. Type in 'sudo bash $0' to run."
     exit 1
-elif [[ -f /usr/share/spyguard/config.yaml ]]; then
-    echo "You have a Spyguard instance already installed on this box."
-    echo "  - If you want to update the instance, please execute:"
-    echo "      sudo bash /usr/share/spyguard/update.sh"
-    echo "  - If you want to uninstall the instance, please execute:"
-    echo "      sudo bash /usr/share/spyguard/uninstall.sh"
-    exit 1
+elif [[ -d /usr/share/spyguard ]]; then
+    echo "A SpyGuard installation already exists in /usr/share/spyguard."
+    echo "The instance will now be uninstalled."
+    echo ""
+    echo "After the uninstallation completes, please re-run:"
+    echo "  sudo bash $0"
+    echo ""
+    echo "If you need to uninstall manually, you can run:"
+    echo "  sudo bash /usr/share/spyguard/uninstall.sh"
+    echo ""
+    if [[ -f /usr/share/spyguard/uninstall.sh ]]; then
+        bash /usr/share/spyguard/uninstall.sh
+    else
+        echo "Error: /usr/share/spyguard/uninstall.sh not found."
+        exit 1
+    fi
+    exit 0
 else
     welcome_screen
     testing_distro
