@@ -2,7 +2,7 @@
 
 
 > [!IMPORTANT]
-> Version 2 finally emerged after two years spent deep in a family-focused “tunnel,” marking a return to the project after an extended period away. An update of Suricata introduced breaking changes in the detection mechanism; version 2 addresses these changes while further enhancing the detection of suspicious network flows. Please follow these instructions to switch from the V1 to V2 if you've already installed Spyguard.
+> Version 2 finally emerged after two years devoted to my family, marking a return to the project after an extended period away. An update of Suricata introduced breaking changes in the detection mechanism; version 2 addresses these changes while further enhancing the detection of suspicious network flows. Please follow these instructions to switch from the V1 to V2 if you've already installed Spyguard.
 
 
 ### Description 
