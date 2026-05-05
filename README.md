@@ -7,7 +7,7 @@
 
 ### Description 
 
-SpyGuard is a forked and enhanced version of [TinyCheck](https://github.com/KasperskyLab/TinyCheck), developed by the same author when he was working at Kaspersky. SpyGuard's main objective is to detect signs of compromise by monitoring network flows transmitted by a device. 
+SpyGuard's main objective is to detect signs of compromise by monitoring network flows transmitted by a device. 
 
 As it uses WiFi, SpyGuard can be used against a wide range of devices, such as smartphones, laptops, IOTs or workstations. To do its job, the analysis engine of SpyGuard is using Indicators of Compromise (IOCs), anomaly detection and is supported by [Suricata](https://suricata.io).
 
@@ -39,7 +39,7 @@ The frontend is available at the URL `https://localhost:8000`.
 ### Smartphone analysis best practices 
 
 * Do the interception in a public place (library, restaurant, train station...) or common place (office, home...); 
-* Intercept the network communications of the device for at least 15 minutes; 
+* Intercept the network communications of the device for at least 30 minutes; 
 * Interact with the analysed device during the interception (reboot it, take a photo, send an SMS...);
 
 ### SpyGuard and Stalkerware threat
@@ -58,7 +58,7 @@ You can use SpyGuard in a commercial product. However, you can't use SpyGuard as
 
 ### Contact
 
-If you need an express help to understand the results of the analysis or have a specific demand/question, do not hesitate to contact [the author](https://twitter.com/felixaime) via Twitter or by sending an email at spyguard@protonmail.com. A bug? Do not hesitate to open a [new issue](https://github.com/SpyGuard/spyguard/issues).
+If you need an express help to understand the results of the analysis or have a specific demand/question, do not hesitate to contact [the author](https://twitter.com/felixaime) via Twitter or by sending an email at felix.aime@gmail.com. A bug? Do not hesitate to open a [new issue](https://github.com/SpyGuard/spyguard/issues).
 
 ### They have contributed to or helped this project
 
