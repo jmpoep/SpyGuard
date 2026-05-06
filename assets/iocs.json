@@ -30737,6 +30737,636 @@
             "tag": "suspicious",
             "tlp": "white",
             "value": "1domainregistry.com"
-        }
-    ]
+        },
+    {
+      "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=us,o=let's encrypt, cn=r12"
+    },
+    {
+            "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=us,o=let's encrypt, cn=r13"
+    },
+    {
+            "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=us,o=let's encrypt, cn=ye1"
+    },
+    {
+            "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=us,o=let's encrypt, cn=e8"
+    },
+    {
+            "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=us,o=let's encrypt, cn=r3"
+    },
+    {
+            "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=us,o=let's encrypt, cn=e7"
+    },
+    {
+            "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=us,o=let's encrypt, cn=yr1"
+    },
+    {
+            "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=us,o=let's encrypt, cn=yr2"
+    },
+    {
+            "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=us,o=let's encrypt, cn=r10"
+    },
+    {
+            "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=us,o=let's encrypt, cn=e6"
+    },
+    {
+            "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=at,o=zerossl, cn=zerossl ecc domain secure site ca"
+    },
+    {
+            "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=at,o=zerossl gmbh, cn=zerossl rsa dv ssl ca 2"
+    },
+    {
+            "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=at,o=zerossl gmbh, cn=zerossl ecc dv ssl ca 2"
+    },
+    {
+            "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=us,o=let's encrypt, cn=ye2"
+    },
+    {
+            "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=us,o=let's encrypt, cn=r11"
+    },
+    {
+            "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=us,o=let's encrypt, cn=e5"
+    },
+    {
+            "type": "issuerdn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "c=at,o=zerossl, cn=zerossl rsa domain secure site ca"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "399629"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "199959"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "54290"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "62005"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "57169"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "207728"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "59729"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "212238"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "44066"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "43289"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "34224"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "44901"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "209847"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "61272"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "39378"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "52048"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "215626"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "203557"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "51395"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "12586"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "214036"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "49276"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "60567"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "42708"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "208258"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "9009"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "50673"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "48894"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "36352"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "207636"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "42237"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "210644"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "25467"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "56322"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "204641"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "40676"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "53850"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "39798"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "199524"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "42201"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "138915"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "42159"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "47987"
+    },
+    {
+            "type": "asn",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "202920"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "91.242.241.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "91.211.27.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "91.235.234.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "91.231.186.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "45.83.180.0/23"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "45.83.182.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "62.204.35.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "62.106.66.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "2.59.218.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "2.59.216.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "194.59.183.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "77.72.85.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "45.66.248.0/23"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "195.54.160.0/23"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "45.143.166.0/23"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "213.109.147.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "194.110.246.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "45.129.199.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "194.26.141.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "193.104.75.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "185.39.18.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "193.200.16.0/23"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "2.59.217.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "188.119.122.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "171.22.183.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "194.213.18.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "176.124.32.0/23"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "171.22.182.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "194.61.120.0/23"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "155.212.242.0/23"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "130.49.155.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "188.119.123.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "146.19.143.0/24"
+    },
+    {
+            "type": "cidr",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": "83.97.79.0/24"
+    },
+    {
+            "type": "tld",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": ".run"
+    },
+    {
+            "type": "tld",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": ".us"
+    },
+    {
+            "type": "tld",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": ".sbs"
+    },
+    {
+            "type": "tld",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": ".cash"
+    },
+    {
+            "type": "tld",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": ".pro"
+    },
+    {
+            "type": "tld",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": ".zip"
+    },
+    {
+            "type": "tld",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": ".tv"
+    },
+    {
+            "type": "tld",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": ".vip"
+    },
+    {
+            "type": "tld",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": ".shop"
+    },
+    {
+            "type": "tld",
+      "tag": "suspicious",
+      "tlp": "white",
+      "value": ".dyn"
+    }
+  ]
 }
