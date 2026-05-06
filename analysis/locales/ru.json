@@ -145,6 +145,8 @@
         "report_generated_on": "Дата формирования отчета",
         "capture_duration": "Продолжительность сбора данных",
         "packets_number": "Количество пакетов",
+        "capture_started": "Захват начался:",
+        "capture_ended": "захват закончился:",
         "capture_sha1": "Сбор данных SHA1",
         "report_for_the_capture": "Отчет для сбора данных",
         "report_footer": "Этот отчет был автоматически сформирован устройством SpyGuard. С любыми вопросами, сообщениями об ошибках или отзывами обращайтесь по адресу spyguard@protonmail.com.",

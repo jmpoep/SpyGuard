@@ -47,6 +47,24 @@ class Report(object):
         with open(json_path, "r") as json_file:
             return json.load(json_file)
 
+    def _capinfos_value(self, *keys):
+        """First non-empty capinfos field (Wireshark/capinfos key names vary by version)."""
+        d = self.capinfos or {}
+        for k in keys:
+            v = d.get(k)
+            if v is not None and str(v).strip():
+                return v
+        return None
+
+    def _capinfos_time_display(self, *keys):
+        """Date part before comma, matching report.vue pcapTimeFirst."""
+        v = self._capinfos_value(*keys)
+        if v is None:
+            return None
+        s = str(v)
+        i = s.find(",")
+        return s[:i] if i >= 0 else s
+
     def generate_report(self):
         """Generate the full report and save it as report.pdf """
 
@@ -299,9 +317,19 @@ class Report(object):
         header += f"{self.template['instance_uuid']}: {self.instance['instance_uuid']}<br />"
         header += f"{self.template['report_generated_on']} {datetime.now().strftime('%d/%m/%Y - %H:%M:%S')}<br />"
         if self.capinfos is not None:
-            header += f"{self.template['capture_duration']}: {self.capinfos['Capture duration'].split(' ')[0]} {self.template['seconds']}<br />"
+            cap_dur = self._capinfos_value("Capture duration")
+            if cap_dur:
+                header += f"{self.template['capture_duration']}: {cap_dur.split(' ')[0]} {self.template['seconds']}<br />"
             header += f"{self.template['analysis_duration']}: {self.analysis_duration} {self.template['seconds']}<br />"
-            header += f"{self.template['packets_number']}: {self.capinfos['Number of packets']}<br />"
+            n_pack = self._capinfos_value("Number of packets")
+            if n_pack:
+                header += f"{self.template['packets_number']}: {n_pack}<br />"
+            t_start = self._capinfos_time_display("First packet time", "Earliest packet time")
+            if t_start:
+                header += f"{self.template['capture_started']} {t_start}<br />"
+            t_end = self._capinfos_time_display("Last packet time", "Latest packet time")
+            if t_end:
+                header += f"{self.template['capture_ended']} {t_end}<br />"
         header += "</p>"
         header += "</div>"
         return header

@@ -55,8 +55,8 @@
                         <div class="device-ctx-legend">
                             <div class="alert-body">
                                 {{ $t("report.pcap_sha1") }} {{ pcapField("SHA1") }}<br />
-                                {{ $t("report.capture_started") }} {{ pcapTimeFirst("First packet time") }}<br />
-                                {{ $t("report.capture_ended") }} {{ pcapTimeFirst("Last packet time") }}<br />
+                                {{ $t("report.capture_started") }} {{ pcapTimeFirst("First packet time", "Earliest packet time") }}<br />
+                                {{ $t("report.capture_ended") }} {{ pcapTimeFirst("Last packet time", "Latest packet time") }}<br />
                                 {{ $t("report.detection_methods") }} {{ detection_methods }}
                             </div>
                         </div>
@@ -453,9 +453,13 @@ export default {
             if (!this.pcap || this.pcap[key] == null) return "—"
             return this.pcap[key]
         },
-        pcapTimeFirst: function(key) {
-            if (!this.pcap || this.pcap[key] == null) return "—"
-            var s = String(this.pcap[key])
+        /** capinfos labels differ across Wireshark versions (First/Last vs Earliest/Latest). */
+        pcapTimeFirst: function(key, altKey) {
+            if (!this.pcap) return "—"
+            var raw = this.pcap[key]
+            if (raw == null && altKey != null) raw = this.pcap[altKey]
+            if (raw == null) return "—"
+            var s = String(raw)
             var i = s.indexOf(",")
             return i >= 0 ? s.slice(0, i) : s
         },

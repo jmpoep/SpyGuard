@@ -145,6 +145,8 @@
         "report_generated_on": "Raport wygenerowano",
         "capture_duration": "Czas trwania badania",
         "packets_number": "Liczba pakietów",
+        "capture_started": "Przechwytywanie rozpoczęto o:",
+        "capture_ended": "Przechwytywanie zakończono o:",
         "capture_sha1": "SHA1 zapisu ruchu",
         "report_for_the_capture": "Raport dla badania",
         "report_footer": "Raport został wygenerowany automatycznie przez urządzenie SpyGuard. W sprawie pytań, błędów oraz oceny, kontakt: spyguard@protonmail.com.",

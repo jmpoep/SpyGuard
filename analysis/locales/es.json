@@ -145,6 +145,8 @@
         "report_generated_on": "Informe generado en",
         "capture_duration": "Duración captura",
         "packets_number": "Número de paquetes",
+        "capture_started": "Captura comenzó a:",
+        "capture_ended": "Captura terminó a:",
         "capture_sha1": "Captura SHA1",
         "report_for_the_capture": "Informe de la captura",
         "report_footer": "Este informe ha sido autogenerado por un dispositivo SpyGuard. Para cualquier pregunta, informe de fallos o feedback por favor contacte con spyguard@protonmail.com.",
