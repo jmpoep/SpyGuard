@@ -4,6 +4,7 @@ import json
 import hashlib
 import re
 import sys
+import ipaddress
 
 from weasyprint import HTML
 from pathlib import Path
@@ -45,6 +46,24 @@ class Report(object):
         """
         with open(json_path, "r") as json_file:
             return json.load(json_file)
+
+    def _capinfos_value(self, *keys):
+        """First non-empty capinfos field (Wireshark/capinfos key names vary by version)."""
+        d = self.capinfos or {}
+        for k in keys:
+            v = d.get(k)
+            if v is not None and str(v).strip():
+                return v
+        return None
+
+    def _capinfos_time_display(self, *keys):
+        """Date part before comma, matching report.vue pcapTimeFirst."""
+        v = self._capinfos_value(*keys)
+        if v is None:
+            return None
+        s = str(v)
+        i = s.find(",")
+        return s[:i] if i >= 0 else s
 
     def generate_report(self):
         """Generate the full report and save it as report.pdf """
@@ -103,6 +122,80 @@ class Report(object):
         a = self.template["numbers"]
         return a[nb-1] if nb <= 9 else str(nb)
 
+    def _is_icmp_like_protocol(self, name: str) -> bool:
+        """ICMP variants have no TCP/UDP destination port in Suricata flow logs."""
+        u = (name or "").upper()
+        if not u:
+            return False
+        if u in ("ICMP", "IPV6-ICMP", "ICMPV6", "ICMP6"):
+            return True
+        return "ICMP" in u
+
+    def _format_record_ports(self, protocols):
+        """Ports for table display: omit ICMP; treat -1 / '-1' as unknown."""
+        if not protocols:
+            return ""
+        parts = []
+        for p in protocols:
+            if self._is_icmp_like_protocol(p.get("name")):
+                continue
+            port = p.get("port")
+            try:
+                pint = int(port)
+            except (TypeError, ValueError):
+                pint = None
+            if port in (-1, None, "-", "--", "-1") or (pint is not None and pint < 0):
+                parts.append("--")
+            else:
+                parts.append(str(port))
+        return ", ".join(parts)
+
+    def _format_ip_short(self, value: str) -> str:
+        """Compress IPv6 (e.g., remove 0000 blocks) for display."""
+        if value is None:
+            return ""
+        s = str(value).strip()
+        if not s:
+            return ""
+        # Preserve non-IPv6 strings and IPv4 literals
+        if ":" not in s:
+            return s
+        # Remove zone index if present (fe80::1%wlan0)
+        if "%" in s:
+            s = s.split("%", 1)[0]
+        try:
+            ip = ipaddress.ip_address(s)
+            # For IPv6, use the compressed form
+            if isinstance(ip, ipaddress.IPv6Address):
+                return ip.compressed
+            return str(ip)
+        except ValueError:
+            return s
+
+    def _format_domains_with_umbrella_rank_html(self, record: dict) -> str:
+        """Format record domains as 'domain <span class=muted-rank>(rank)</span>'."""
+        doms = record.get("domains") or []
+        if not isinstance(doms, list) or not doms:
+            return ""
+        ranks = record.get("domains_umbrella_rank") or {}
+        parts = []
+        for d in doms:
+            if not isinstance(d, str):
+                continue
+            base = d
+            r = None
+            try:
+                r = ranks.get(d)
+                if r is None:
+                    r = ranks.get(str(d))
+            except Exception:
+                r = None
+            if r:
+                parts.append(f"{base} <span class=\"muted-rank\">({r})</span>")
+            else:
+                parts.append(base)
+        return ", ".join(parts)
+
     def generate_suspect_conns_block(self):
         """Generate the block and the table of communications categorized as suspect.
 
@@ -118,7 +211,7 @@ class Report(object):
                 tbody += f"<td>{', '.join([p['name'] for p in record['protocols']])}</td>"
                 tbody += f"<td>{', '.join(record['domains'])}</td>"
                 tbody += f"<td>{record['ip_dst']}</td>"
-                tbody += f"<td>{', '.join([str(p['port']) if p['port'] != -1 else '--' for p in record['protocols']])}</td>"
+                tbody += f"<td>{self._format_record_ports(record['protocols'])}</td>"
                 tbody += "</tr>"
 
         if len(tbody):
@@ -151,9 +244,9 @@ class Report(object):
             if record["suspicious"] == False and record["whitelisted"] == False:
                 tbody += "<tr>"
                 tbody += f"<td>{', '.join([p['name'] for p in record['protocols']])}</td>"
-                tbody += f"<td>{', '.join(record['domains'])}</td>"
-                tbody += f"<td>{record['ip_dst']}</td>"
-                tbody += f"<td>{', '.join([str(p['port']) if p['port'] != -1 else '--' for p in record['protocols']])}</td>"
+                tbody += f"<td>{self._format_domains_with_umbrella_rank_html(record)}</td>"
+                tbody += f"<td>{self._format_ip_short(record.get('ip_dst',''))}</td>"
+                tbody += f"<td>{self._format_record_ports(record['protocols'])}</td>"
                 tbody += "</tr>"
 
         if len(tbody):
@@ -189,7 +282,7 @@ class Report(object):
                 tbody += f"<td>{', '.join([p['name'] for p in record['protocols']])}</td>"
                 tbody += f"<td>{', '.join(record['domains'])}</td>"
                 tbody += f"<td>{record['ip_dst']}</td>"
-                tbody += f"<td>{', '.join([str(p['port']) if p['port'] != -1 else '--' for p in record['protocols']])}</td>"
+                tbody += f"<td>{self._format_record_ports(record['protocols'])}</td>"
                 tbody += "</tr>"
 
         if len(tbody):
@@ -224,9 +317,19 @@ class Report(object):
         header += f"{self.template['instance_uuid']}: {self.instance['instance_uuid']}<br />"
         header += f"{self.template['report_generated_on']} {datetime.now().strftime('%d/%m/%Y - %H:%M:%S')}<br />"
         if self.capinfos is not None:
-            header += f"{self.template['capture_duration']}: {self.capinfos['Capture duration'].split(' ')[0]} {self.template['seconds']}<br />"
+            cap_dur = self._capinfos_value("Capture duration")
+            if cap_dur:
+                header += f"{self.template['capture_duration']}: {cap_dur.split(' ')[0]} {self.template['seconds']}<br />"
             header += f"{self.template['analysis_duration']}: {self.analysis_duration} {self.template['seconds']}<br />"
-            header += f"{self.template['packets_number']}: {self.capinfos['Number of packets']}<br />"
+            n_pack = self._capinfos_value("Number of packets")
+            if n_pack:
+                header += f"{self.template['packets_number']}: {n_pack}<br />"
+            t_start = self._capinfos_time_display("First packet time", "Earliest packet time")
+            if t_start:
+                header += f"{self.template['capture_started']} {t_start}<br />"
+            t_end = self._capinfos_time_display("Last packet time", "Latest packet time")
+            if t_end:
+                header += f"{self.template['capture_ended']} {t_end}<br />"
         header += "</p>"
         header += "</div>"
         return header
@@ -237,41 +340,84 @@ class Report(object):
         Returns:
             str: HTML block containing the data.
         """
-        alerts = "<ul class=\"alerts\">"
-        for alert in self.alerts["high"]:
-            alerts += "<li class =\"alert\">"
-            alerts += "<span class=\"high-label\">High</span>"
-            alerts += "<span class=\"alert-id\">{}</span>".format(alert["id"])
-            alerts += "<div class = \"alert-body\">"
-            alerts += "<span class=\"title\">{}</span>".format(alert["title"])
-            alerts += "<p class=\"description\">{}</p>".format(
-                alert["description"])
-            alerts += "</div>"
-            alerts += "</li>"
+        # Align with frontend report.vue: group alerts by host and show all levels per host.
+        levels = ["high", "moderate", "low"]
+        groups = {}
+        for level in levels:
+            arr = self.alerts.get(level) or []
+            if not isinstance(arr, list):
+                continue
+            for a in arr:
+                if not isinstance(a, dict):
+                    continue
+                host = a.get("host") or a.get("title") or "—"
+                g = groups.get(host)
+                if g is None:
+                    g = {
+                        "host": host,
+                        "alerts": {"high": [], "moderate": [], "low": []},
+                        "counts": {"high": 0, "moderate": 0, "low": 0},
+                        "services": set(),
+                    }
+                    groups[host] = g
+                g["alerts"][level].append(a)
+                g["counts"][level] += 1
+                try:
+                    p = a.get("port")
+                    proto = a.get("proto") or a.get("protocol")
+                    if p is not None and proto:
+                        try:
+                            pn = int(p)
+                        except Exception:
+                            pn = None
+                        if pn is not None and pn > 0:
+                            g["services"].add(f"{pn}/{str(proto).strip().upper()}")
+                except Exception:
+                    pass
 
-        for alert in self.alerts["moderate"]:
-            alerts += "<li class =\"alert\">"
-            alerts += "<span class=\"moderate-label\">moderate</span>"
-            alerts += "<span class=\"alert-id\">{}</span>".format(alert["id"])
-            alerts += "<div class = \"alert-body\">"
-            alerts += "<span class=\"title\">{}</span>".format(alert["title"])
-            alerts += "<p class=\"description\">{}</p>".format(
-                alert["description"])
-            alerts += "</div>"
-            alerts += "</li>"
-        for alert in self.alerts["low"]:
-            alerts += "<li class =\"alert\">"
-            alerts += "<span class=\"low-label\">low</span>"
-            alerts += "<span class=\"alert-id\">{}</span>".format(alert["id"])
-            alerts += "<div class = \"alert-body\">"
-            alerts += "<span class=\"title\">{}</span>".format(alert["title"])
-            alerts += "<p class=\"description\">{}</p>".format(
-                alert["description"])
-            alerts += "</div>"
-            alerts += "</li>"
+        def _host_prefix(h: str) -> str:
+            # Keep it simple; PDF locales don't currently carry these strings.
+            try:
+                ipaddress.ip_address(str(h))
+                return "Adresse IP : " if self.userlang == "fr" else "IP address: "
+            except Exception:
+                return "Hôte : " if self.userlang == "fr" else "Host: "
 
-        alerts += "</ul>"
-        return alerts
+        # Stable-ish ordering for readability.
+        sorted_hosts = sorted(groups.keys(), key=lambda x: str(x))
+        html = "<div class=\"alert-groups\">"
+        for host in sorted_hosts:
+            g = groups[host]
+            svc = ", ".join(sorted(g["services"])) if g["services"] else ""
+            svc_html = f" <span class=\"host-services\">- {svc}</span>" if svc else ""
+            html += "<div class=\"alert-group\">"
+            html += "<div class=\"alert-group-header\">"
+            html += f"<span class=\"alert-group-title\">{_host_prefix(host)}{host}{svc_html}</span>"
+            html += "<span class=\"alert-group-counts\">"
+            if g["counts"]["high"]:
+                html += f"<span class=\"high-label-head\">{g['counts']['high']} high</span>"
+            if g["counts"]["moderate"]:
+                html += f"<span class=\"moderate-label-head\">{g['counts']['moderate']} moderate</span>"
+            if g["counts"]["low"]:
+                html += f"<span class=\"low-label-head\">{g['counts']['low']} low</span>"
+            html += "</span>"
+            html += "</div>"
+
+            html += "<ul class=\"alerts\">"
+            for level in levels:
+                for alert in g["alerts"][level]:
+                    cls = "low-label" if level == "low" else ("moderate-label" if level == "moderate" else "high-label")
+                    lbl = "low" if level == "low" else ("moderate" if level == "moderate" else "high")
+                    html += "<li class=\"alert\">"
+                    html += f"<span class=\"{cls}\">{lbl}</span>"
+                    html += "<span class=\"alert-id\">{}</span>".format(alert.get("id", "—"))
+                    html += "<div class=\"alert-body\">"
+                    html += "<span class=\"title\">{}</span>".format(alert.get("title", "—"))
+                    html += "<p class=\"description\">{}</p>".format(alert.get("description", ""))
+                    html += "</div></li>"
+            html += "</ul></div>"
+        html += "</div>"
+        return html
 
     def generate_page_footer(self):
         """Generate the page footer
@@ -336,6 +482,62 @@ class Report(object):
 
                             tr:nth-of-type(odd) {
                                 background-color: #fafafa;
+                            }
+
+                            .muted-rank {
+                                color: #b8b8b8;
+                            }
+
+                            .alert-group-header {
+                                display: flex;
+                                gap: 10px;
+                                align-items: center;
+                                background-color: #fbfbfb;
+                                padding: 6px;
+                                border-radius: 5px;
+                                margin-top: 10px;
+                            }
+                            .alert-group-title {
+                                font-weight: 600;
+                            }
+                            .host-services {
+                                font-weight: 400;
+                                color: #7a7a7a;
+                                margin-left: 6px;
+                            }
+                            .alert-group-counts {
+                                margin-left: auto;
+                                display: inline-flex;
+                                gap: 8px;
+                                font-size: 0.9em;
+                                opacity: 0.95;
+                            }
+                            .low-label-head {
+                                background-color: #4fce0eb8;
+                                padding: 3px 5px;
+                                text-transform: uppercase;
+                                font-size: 10px;
+                                font-weight: bold;
+                                border-radius: 5px;
+                                color: #fff;
+                            }
+                            .moderate-label-head {
+                                background-color: #ff7e33eb;
+                                padding: 3px 5px;
+                                text-transform: uppercase;
+                                font-size: 10px;
+                                font-weight: bold;
+                                border-radius: 5px;
+                                color: #fff;
+                            }
+                            .high-label-head {
+                                background-color: #e53d38;
+                                padding: 3px 5px;
+                                text-transform: uppercase;
+                                font-size: 10px;
+                                font-weight: bold;
+                                border-radius: 5px;
+                                color: #fff;
                             }
 
                             .logo {

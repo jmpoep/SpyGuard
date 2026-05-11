@@ -89,9 +89,21 @@ def get_tags():
 def get_all():
     """
         Retreive a list of all IOCs.
-        :return: list of iocs in JSON.
+        :return: list of iocs in JSON (pretty-printed, no DB ids — safe to re-import).
     """
     res = IOCs.get_all()
-    return Response(json.dumps({"iocs": [i for i in res]}),
-                    mimetype='application/json',
-                    headers={'Content-Disposition': 'attachment;filename=iocs-export.json'})
+    # Export portable fields only; import uses tag, type, tlp, value (see iocs-manage file import).
+    export_iocs = [
+        {k: v for k, v in row.items() if k != "id"}
+        for row in res
+    ]
+    body = json.dumps(
+        {"iocs": export_iocs},
+        indent=2,
+        ensure_ascii=False,
+    ) + "\n"
+    return Response(
+        body,
+        mimetype='application/json; charset=utf-8',
+        headers={'Content-Disposition': 'attachment;filename=iocs-export.json'},
+    )

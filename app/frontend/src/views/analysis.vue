@@ -25,16 +25,30 @@ export default {
     data() {
         return {
             check_alerts: false,
-            long_waiting: false
+            long_waiting: false,
+            long_waiting_timeout: null
         }
     },
     props: {
         capture_token: String
     },
     methods: {
+        ensure_capture_stopped_then_start: function() {
+            // The capture stop can take a few seconds (stop_monitoring, hotspot teardown, capinfos).
+            // We switch to this view immediately for UX, then best-effort stop before starting analysis.
+            axios.get('/api/capture/stop', { timeout: 45000 })
+                .catch((err) => {
+                    // It's ok if capture is already stopped / hotspot already deleted.
+                    console.log(err)
+                })
+                .finally(() => {
+                    // Small delay to let capinfos.json be written before analysis reads it.
+                    setTimeout(() => this.start_analysis(), 300)
+                })
+        },
         start_analysis: function() {
             console.log("[analysis.vue] Starting the analysis...");
-            setTimeout(function () { this.long_waiting = true }.bind(this), 15000);
+            this.long_waiting_timeout = setTimeout(function () { this.long_waiting = true }.bind(this), 15000);
             axios.get(`/api/analysis/start/${this.capture_token}`, { timeout: 60000 })
                 .then(response => {
                     if(response.data.message == 'Analysis started')
@@ -51,13 +65,10 @@ export default {
                         console.log("[analysis.vue] Got the results analysis, moving to report view");
                         clearInterval(this.check_alerts);
                         this.long_waiting = false
-                        router.replace({ name: 'report', 
-                                         params: { alerts : response.data.alerts, 
-                                                   device : response.data.device,
-                                                   methods : response.data.methods, 
-                                                   pcap : response.data.pcap,  
-                                                   records : response.data.records,  
-                                                   capture_token : this.capture_token } });
+                        router.replace({
+                            name: 'report',
+                            params: { capture_token: this.capture_token }
+                        });
                     } else {
                         console.log("[analysis.vue] No analysis results yet");
                     }
@@ -69,7 +80,11 @@ export default {
     },
     created: function() {
         console.log("[analysis.vue] Showing analysis.vue");
-        this.start_analysis();
+        this.ensure_capture_stopped_then_start();
+    },
+    beforeUnmount: function() {
+        if (this.check_alerts) clearInterval(this.check_alerts);
+        if (this.long_waiting_timeout) clearTimeout(this.long_waiting_timeout);
     }
 }
 </script>

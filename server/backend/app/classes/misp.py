@@ -129,21 +129,17 @@ class MISP(object):
                                "tag": "suspect",
                                "tlp": "white"}
 
-                        # Deduce the IOC type.
-                        if re.match(defs["iocs_types"][0]["regex"], attr["value"]):
-                            ioc["type"] = "ip4addr"
-                        elif re.match(defs["iocs_types"][1]["regex"], attr["value"]):
-                            ioc["type"] = "ip6addr"
-                        elif re.match(defs["iocs_types"][2]["regex"], attr["value"]):
-                            ioc["type"] = "cidr"
-                        elif re.match(defs["iocs_types"][3]["regex"], attr["value"]):
-                            ioc["type"] = "domain"
-                        elif re.match(defs["iocs_types"][4]["regex"], attr["value"]):
-                            ioc["type"] = "sha1cert"
-                        elif "alert " in attr["value"][0:6]:
+                        # Deduce the IOC type (do not depend on iocs_types ordering).
+                        v = attr["value"]
+                        if isinstance(v, str) and v.startswith("alert "):
                             ioc["type"] = "snort"
                         else:
-                            continue
+                            for t in defs["iocs_types"]:
+                                if t.get("regex") and re.match(t["regex"], v):
+                                    ioc["type"] = t["type"]
+                                    break
+                            if not ioc["type"]:
+                                continue
 
                         if "Tag" in attr:
                             for tag in attr["Tag"]:

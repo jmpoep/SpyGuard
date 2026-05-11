@@ -11,11 +11,14 @@ import re
 import json
 import random
 
+from app.spyguard_logging import get_logger, reset_log
+
 class Capture(object):
 
     def __init__(self):
         self.random_choice_alphabet = "ABCDEF1234567890"
         self.rules_file = "/tmp/rules"
+        self.log = get_logger()
         self.generate_rule_file()
         
     def start_capture(self) -> dict:
@@ -25,6 +28,9 @@ class Capture(object):
         Returns:
             dict: Capture token and operation status. 
         """
+        # New session: truncate debug log.
+        reset_log()
+
         # Few context variable assignment
         self.capture_token = "".join([random.choice(self.random_choice_alphabet) for i in range(8)])
         self.capture_dir = "/tmp/{}/".format(self.capture_token)
@@ -32,31 +38,36 @@ class Capture(object):
         self.iface = read_config(("network", "in"))
         self.pcap = self.capture_dir + "capture.pcap"
         self.rules_file = "/tmp/rules"
+        self.log.info("capture start requested token=%s iface_in=%s dir=%s", self.capture_token, self.iface, self.capture_dir)
 
         # For packets monitoring
         self.list_pkts = []
         self.last_pkts = 0
 
-        # Make the capture and the assets directory
-        mkdir(self.capture_dir)
-        chmod(self.capture_dir, 0o777)
-        mkdir(self.assets_dir)
-        chmod(self.assets_dir, 0o777)
-
-        # Kill possible potential process
-        stop_monitoring()
-
-        # Writing the instance UUID for reporting.
-        with open("/tmp/{}/assets/instance.json".format(self.capture_token), "w") as f:
-            f.write(json.dumps({ "instance_uuid" : get_device_uuid().strip() }))
-
         try:
+            # Make the capture and the assets directory
+            mkdir(self.capture_dir)
+            chmod(self.capture_dir, 0o777)
+            mkdir(self.assets_dir)
+            chmod(self.assets_dir, 0o777)
+            self.log.info("capture dirs created capture_dir=%s assets_dir=%s", self.capture_dir, self.assets_dir)
+
+            # Kill possible potential process
+            stop_monitoring()
+
+            # Writing the instance UUID for reporting.
+            with open("/tmp/{}/assets/instance.json".format(self.capture_token), "w") as f:
+                f.write(json.dumps({ "instance_uuid" : get_device_uuid().strip() }))
+            self.log.info("instance.json written token=%s", self.capture_token)
+
             sp.Popen(["dumpcap",  "-n", "-i", self.iface, "-w", self.pcap])
             sp.Popen(["suricata", "-c", "/etc/suricata/suricata.yaml", "-i", self.iface, "-l", self.assets_dir, "-S", self.rules_file])
+            self.log.info("capture processes started token=%s pcap=%s", self.capture_token, self.pcap)
             return { "status": True,
                      "message": "Capture started",
                      "capture_token": self.capture_token }
-        except:
+        except Exception:
+            self.log.exception("capture start failed token=%s", self.capture_token)
             return { "status": False,
                      "message": f"Unexpected error: {sys.exc_info()[0]}"}
 
@@ -75,7 +86,8 @@ class Capture(object):
         if self.last_pkts == 0:
             self.last_pkts = tx_pkts + rx_pkts
             return {"status": True,
-                    "packets": [0*400]}
+                    # Return a stable series immediately to avoid an initial “max bar” artifact.
+                    "packets": [0] * 400}
         else:
             curr_pkts = (tx_pkts + rx_pkts) - self.last_pkts
             self.last_pkts = tx_pkts + rx_pkts
@@ -100,7 +112,8 @@ class Capture(object):
         if len(data) >= max_len:
             return data[-max_len:]
         else:
-            return data + [1] * (max_len - len(data))
+            # Pad with zeros so the sparkline starts flat.
+            return data + [0] * (max_len - len(data))
 
     def stop_capture(self) -> dict:
         """Stop dumpcap & suricata if any instance present & ask create_capinfos.
@@ -114,12 +127,15 @@ class Capture(object):
         if stop_monitoring(): 
             if network.delete_hotspot():
                 self.create_capinfos()
+                self.log.info("capture stopped token=%s", getattr(self, "capture_token", None))
                 return {"status": True,
                         "message": "Capture stopped"}
             else:
+                self.log.warning("capture stop requested but no active hotspot token=%s", getattr(self, "capture_token", None))
                 return {"status": False,
                         "message": "No active hotspot"}     
         else:
+            self.log.warning("capture stop requested but no active capture token=%s", getattr(self, "capture_token", None))
             return {"status": False,
                     "message": "No active capture"}
 
@@ -142,9 +158,14 @@ class Capture(object):
             except:
                 continue
 
-        with open("{}capinfos.json".format(self.assets_dir), 'w') as f:
-            json.dump(data, f)
+        try:
+            with open("{}capinfos.json".format(self.assets_dir), 'w') as f:
+                json.dump(data, f)
+            self.log.info("capinfos.json written token=%s", getattr(self, "capture_token", None))
             return True
+        except Exception:
+            self.log.exception("capinfos.json write failed token=%s", getattr(self, "capture_token", None))
+            return False
 
     def generate_rule_file(self) -> bool:
         """Generate a suricata rules files.
@@ -163,7 +184,9 @@ class Capture(object):
         try:
             with open(self.rules_file, "w+") as f:
                 f.write("\n".join(rules))
-                return True
-        except:
+            self.log.info("suricata rules file generated path=%s rules=%s", self.rules_file, len(rules))
+            return True
+        except Exception:
+            self.log.exception("suricata rules file generation failed path=%s", self.rules_file)
             return False
 

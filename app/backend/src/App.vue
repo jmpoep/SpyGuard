@@ -71,6 +71,9 @@
                 <li class="menu-item">
                   <span @click="$router.push('/instances/misp')">MISP Instances</span>
                 </li>
+                <li class="menu-item">
+                  <span @click="$router.push('/instances/local-assets')">Local data caches</span>
+                </li>
               </ul>
             </div>
           </div>

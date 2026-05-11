@@ -18,7 +18,12 @@
         },
         "PROTO-05": {
             "title": "Il server {} non è stato risolto da nessuna query DNS durante la sessione",
-            "description": "Questo indica che il server {} probabilmente non è stato risolto da nessun nome di dominio o che la risoluzione è già stata memorizzata nella cache dal dispositivo. Se l'host viene visualizzato in altri avvisi, controllarlo."
+            "description": "Questo indica che il server {} probabilmente non è stato risolto da nessun nome di dominio o che la risoluzione è già stata memorizzata nella cache dal dispositivo. Se l'host viene visualizzato in altri avvisi, controllarlo.",
+            "title_pdns": "Il server {} ({}) non è stato risolto da nessuna query DNS durante la sessione",
+            "description_pdns_single": "Questo indica che il server {} probabilmente non è stato risolto da nessun nome di dominio o che la risoluzione è già stata memorizzata nella cache dal dispositivo. Tuttavia, il servizio di DNS passivo ip.thc.org indica che questo indirizzo IP è stato risolto almeno da {}. Se l'host viene visualizzato in altri avvisi, controllarlo.",
+            "description_pdns": "Questo indica che il server {} probabilmente non è stato risolto da nessun nome di dominio o che la risoluzione è già stata memorizzata nella cache dal dispositivo. Tuttavia, il servizio di DNS passivo ip.thc.org indica che questo indirizzo IP è stato risolto almeno da {} e {} altri domini. Se l'host viene visualizzato in altri avvisi, controllarlo.",
+            "description_pdns_none": "Il servizio di DNS passivo ip.thc.org non ha restituito alcun nome di dominio associato a questo indirizzo IP.",
+            "umbrella_top500k_note": "Questo dominio è presente nel Top 500K di Cisco Umbrella."
         },
         "IOC-01": {
             "title": "È stata stabilita una connessione a {} ({}) con contrassegno {}.",
@@ -70,7 +75,11 @@
         },
         "IOC-13": {
             "title": "Almeno un'applicazione utilizza query DNS crittografate.",
-            "description": "Il DNS sul server https {} è stato contattato durante la cattura. Questo sembra indicare che almeno un'applicazione utilizza questa tecnica per crittografare le sue richieste DNS. Questa funzione limita le capacità di scansione di SpyGuard. Se questa funzione non è abilitata sul dispositivo analizzato, può essere la pena scoprire quale applicazione sta utilizzando questo metodo."
+            "description": "Il server DNS over HTTPS {} è stato contattato durante la cattura. Questo sembra indicare che almeno un'applicazione utilizza questa tecnica per crittografare le sue richieste DNS. Questa funzione limita le capacità di scansione di SpyGuard. Se questa funzione non è abilitata sul dispositivo analizzato, potrebbe valere la pena scoprire quale applicazione sta utilizzando questo metodo."
+        },
+        "IOC-14": {
+            "title": "Connessione a un sistema autonomo sospetto (AS{} {}).",
+            "description": "L'host {} ({}) appartiene al sistema autonomo AS{} {}, noto per essere utilizzato per attività cybercriminali. Se compaiono altri avvisi relativi a questo host, è opportuno effettuare un'analisi più approfondita del dispositivo."
         },
         "ACT-01": {
             "title": "Il dominio {} utilizza un server dei nomi sospetto ({}).",
@@ -98,7 +107,7 @@
         },
         "SSL-05": {
             "title": "La configurazione SSL di {} è collegata ad attività dannose ({}).",
-            "description": "L'hash JARM relativo al server {} è stato esplicitamente associato ad attività dannose. Il dispositivo è probabilmente compromessa e deve essere ulteriormente indagato da un team di professionisti."
+            "description": "L'hash JARM relativo al server {} è stato esplicitamente associato ad attività dannose. Il dispositivo è probabilmente compromesso e deve essere ulteriormente indagato da un team di professionisti."
         },
         "ADV-01": {
             "title": "Controllare gli avvisi per {}",
@@ -107,6 +116,10 @@
         "SNORT-01": {
             "title": "Regola Suricata attivata: {}",
             "description": "È stata attivata una regola di rilevamento della rete. È probabile che il dispositivo sia stato compromesso o che presenti comportamenti sospetti."
+        },
+        "UMBRELLA-01": {
+            "title": "Il dominio {} non è nel top 500K Cisco Umbrella",
+            "description": "Il dominio {} non compare tra i 500000 nomi più richiesti nella telemetria DNS globale Cisco Umbrella. Non è prova di attività malevola — molti siti legittimi sono poco comuni — ma conviene verificare l'host, soprattutto se altri avvisi lo citano."
         }
     },
     "report": {
@@ -132,6 +145,8 @@
         "report_generated_on": "Rapporto generato in data",
         "capture_duration": "Durata acquisizione",
         "packets_number": "Numero di pacchetti",
+        "capture_started": "Cattura è iniziata su:",
+        "capture_ended": "Cattura terminata su:",
         "capture_sha1": "SHA1 acquisizione",
         "report_for_the_capture": "Rapporto relativo all'acquisizione",
         "report_footer": "Questo rapporto è stato generato automaticamente da un dispositivo SpyGuard. Per eventuali domande, segnalazioni di bug o feedback, contattare spyguard@protonmail.com.",
@@ -142,6 +157,6 @@
         "detection_methods": "Metodi di rilevamento",
         "analysis_duration": "Tempo di analisi",
         "instance_uuid": "Istanza di SpyGuard",
-        "seconds" : "secondi"
+        "seconds": "secondi"
     }
 }

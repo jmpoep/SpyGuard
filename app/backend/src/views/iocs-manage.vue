@@ -152,12 +152,15 @@ export default {
             if (ioc != "" && ioc.slice(0,1)  != "#"){
                 if("alert " != ioc.slice(0,6)) {
                     ioc = ioc.trim()
-                    ioc = ioc.replace(" ", "")
-                    ioc = ioc.replace("[", "")
-                    ioc = ioc.replace("]", "")
-                    ioc = ioc.replace("\\", "")
-                    ioc = ioc.replace("(", "")
-                    ioc = ioc.replace(")", "")
+                    // issuerdn values are DNs (commas/spaces are meaningful)
+                    if (type.trim() != "issuerdn") {
+                        ioc = ioc.replace(" ", "")
+                        ioc = ioc.replace("[", "")
+                        ioc = ioc.replace("]", "")
+                        ioc = ioc.replace("\\", "")
+                        ioc = ioc.replace("(", "")
+                        ioc = ioc.replace(")", "")
+                    }
                 }
                 axios.get(`/api/ioc/add/${type.trim()}/${tag.trim()}/${tlp.trim()}/${ioc}`, { timeout: 10000, headers: {'X-Token': this.jwt} })
                 .then(response => {

@@ -22,16 +22,11 @@ delete_packages(){
           "suricata"
           "sqlite3")
 
-    echo -n "[?] Do you want to remove the installed packages? (Yes/no) "
-    read answer
-    if [[ "$answer" =~ ^([yY][eE][sS]|[yY])$ ]]
-    then
-        rm -rf /var/log/suricata
-        for pkg in "${pkgs[@]}"
-        do
-            apt -y remove $pkg && apt -y purge $pkg
-        done
-    fi
+    rm -rf /var/log/suricata
+    for pkg in "${pkgs[@]}"
+    do
+        apt -y remove $pkg && apt -y purge $pkg
+    done
     apt autoremove &> /dev/null -y
 }
 

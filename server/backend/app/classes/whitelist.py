@@ -15,19 +15,27 @@ class WhiteList(object):
         return None
 
     @staticmethod
+    def _normalize_asn_element(elem_value_lower: str) -> str:
+        """Canonical ASN digits for DB storage (same idea as IOC asn)."""
+        s = (elem_value_lower or "").strip()
+        if s.startswith("as"):
+            s = s[2:]
+        s = s.strip()
+        if not s.isdigit():
+            return ""
+        nz = s.lstrip("0")
+        return nz if nz else "0"
+
+    @staticmethod
     def add(elem_type, elem_value, source):
         """
             Parse and add an element to be whitelisted.
             :return: status of the operation in a dict
         """
-        elem_value = elem_value.lower()
+        elem_value = (elem_value or "").strip().lower()
         elem_valid = False
 
-        if db.session.query(exists().where(Whitelist.element == elem_value)).scalar():
-            return {"status": False,
-                    "message": "Element already whitelisted",
-                    "element": escape(elem_value)}
-        elif elem_type == "unknown":
+        if elem_type == "unknown":
             for t in definitions["whitelist_types"]:
                 if t["regex"] and t["auto"]:
                     if re.match(t["regex"], elem_value):
@@ -40,17 +48,29 @@ class WhiteList(object):
                     if re.match(t["regex"], elem_value):
                         elem_valid = True
                         break
-        if elem_valid:
-            added_on = int(time.time())
-            db.session.add(Whitelist(elem_value, elem_type, source, added_on))
-            db.session.commit()
-            return {"status": True,
-                    "message": "Element whitelisted",
-                    "element": escape(elem_value)}
-        else:
+        if not elem_valid:
             return {"status": False,
                     "message": "Wrong element format",
                     "element": escape(elem_value)}
+
+        if elem_type == "asn":
+            elem_value = WhiteList._normalize_asn_element(elem_value)
+            if not elem_value or not re.match(r"^[0-9]{1,10}$", elem_value):
+                return {"status": False,
+                        "message": "Wrong element format",
+                        "element": escape(elem_value)}
+
+        if db.session.query(exists().where(Whitelist.element == elem_value)).scalar():
+            return {"status": False,
+                    "message": "Element already whitelisted",
+                    "element": escape(elem_value)}
+
+        added_on = int(time.time())
+        db.session.add(Whitelist(elem_value, elem_type, source, added_on))
+        db.session.commit()
+        return {"status": True,
+                "message": "Element whitelisted",
+                "element": escape(elem_value)}
 
     @staticmethod
     def delete(elem_id):

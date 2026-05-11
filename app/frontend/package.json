@@ -2,46 +2,29 @@
   "name": "@felixaime/spyguard",
   "version": "1.0.0",
   "scripts": {
-    "serve": "vue-cli-service serve --copy --port=4202",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
     "vue-i18n-extract": "vue-i18n-extract report -a -v './src/**/*.?(js|vue)' -l './src/locales/*.?(json|yaml|yml)'"
   },
   "dependencies": {
     "@fnando/sparkline": "^0.3.10",
-    "axios": "^0.21.4",
-    "core-js": "^3.6.5",
-    "sass": "^1.27.0",
-    "sass-loader": "^10.0.4",
+    "axios": "^1.15.0",
+    "mitt": "^3.0.1",
     "simple-keyboard": "^2.30.25",
     "simple-keyboard-layouts": "^3.1.147",
-    "vue": "^2.6.12",
-    "vue-i18n": "^8.22.4",
-    "vue-router": "^3.4.3"
+    "vue": "^3.5.0",
+    "vue-i18n": "^9.14.0",
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.6",
-    "@vue/cli-plugin-eslint": "~4.5.6",
-    "@vue/cli-service": "~4.5.6",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.9.0",
-    "eslint-plugin-vue": "^6.2.2",
-    "vue-i18n-extract": "1.1.10",
-    "vue-template-compiler": "^2.6.12"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
+    "@vitejs/plugin-vue": "^5.2.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-vue": "^9.0.0",
+    "sass": "^1.77.0",
+    "vite": "^6.0.0",
+    "vue-i18n-extract": "1.1.10"
   },
   "browserslist": [
     "> 1%",

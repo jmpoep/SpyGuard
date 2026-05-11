@@ -18,7 +18,12 @@
         },
         "PROTO-05": {
             "title": "Der Server {} wurde während der Sitzung nicht in einer DNS-Abfrage aufgelöst.",
-            "description": "Das bedeutet, dass der Server {} möglicherweise in keinen Domain-Namen aufgelöst wird oder dass die Auflösung bereits vom Gerät zwischengespeichert wurde. Wenn dieser Host in anderen Warnungen vorkommt, überprüfen Sie ihn bitte."
+            "description": "Das bedeutet, dass der Server {} möglicherweise in keinen Domain-Namen aufgelöst wird oder dass die Auflösung bereits vom Gerät zwischengespeichert wurde. Wenn dieser Host in anderen Warnungen vorkommt, überprüfen Sie ihn bitte.",
+            "title_pdns": "Der Server {} ({}) wurde während der Sitzung nicht in einer DNS-Abfrage aufgelöst.",
+            "description_pdns_single": "Das bedeutet, dass der Server {} möglicherweise in keinen Domain-Namen aufgelöst wird oder dass die Auflösung bereits vom Gerät zwischengespeichert wurde. Der Passive-DNS-Dienst ip.thc.org zeigt jedoch an, dass diese IP-Adresse zumindest zu {} aufgelöst wurde. Wenn dieser Host in anderen Warnungen vorkommt, überprüfen Sie ihn bitte.",
+            "description_pdns": "Das bedeutet, dass der Server {} möglicherweise in keinen Domain-Namen aufgelöst wird oder dass die Auflösung bereits vom Gerät zwischengespeichert wurde. Der Passive-DNS-Dienst ip.thc.org zeigt jedoch an, dass diese IP-Adresse zumindest zu {} und {} weiteren Domains aufgelöst wurde. Wenn dieser Host in anderen Warnungen vorkommt, überprüfen Sie ihn bitte.",
+            "description_pdns_none": "Der Passive-DNS-Dienst ip.thc.org hat für diese IP-Adresse keinen zugeordneten Domain-Namen zurückgegeben.",
+            "umbrella_top500k_note": "Diese Domain ist in den Cisco-Umbrella-Top-500K enthalten."
         },
         "IOC-01": {
             "title": "Es wurde eine Verbindung zu {} hergestellt ({}), was als {} gekennzeichnet ist.",
@@ -72,6 +77,10 @@
             "title": "Mindestens eine Anwendung verwendet verschlüsselte DNS-Abfragen.",
             "description": "Der DNS over HTTPs server {} wurde während der Erfassung kontaktiert. Dies scheint darauf hinzuweisen, dass mindestens eine Anwendung diese Technik verwendet, um ihre DNS-Anfragen zu verschlüsseln. Diese Funktion schränkt die Scanfunktionen von SpyGuard ein. Wenn diese Funktion auf dem analysierten Gerät nicht aktiviert ist, kann es sich lohnen, herauszufinden, welche App diese Methode verwendet."
         },
+        "IOC-14": {
+            "title": "Verbindung zu einem verdächtigen autonomen System (AS{} {}).",
+            "description": "Der Host {} ({}) gehört zum autonomen System AS{} {}, das dafür bekannt ist, für cyberkriminelle Aktivitäten genutzt zu werden. Wenn weitere Warnungen zu diesem Host auftreten, sollte eine tiefergehende Untersuchung des Geräts durchgeführt werden."
+        },
         "ACT-01": {
             "title": "Die Domain {} nutzt einen verdächtigen Nameserver ({}).",
             "description": "Der Domain-Name {} nutzt einen Nameserver, der explizit mit bösartigen Aktivitäten in Verbindung gebracht wird. Viele Cyberkriminelle und staatlich unterstützte Angreifer nutzen Registrare dieser Art, weil sie Kryptowährungen und anonyme Zahlungen zulassen. Es wird empfohlen, diese Domain und die damit verknüpfte laufende Anwendung mithilfe einer forensischen Analyse des Telefons näher zu untersuchen."
@@ -81,7 +90,7 @@
             "description": "Der Domainname {} ist neu. Auch wenn dies nicht von Natur aus böswillig ist, richten Angreifer häufig für jede Kampagne eine neue Infrastruktur ein, die zur Verwendung neu registrierter Domainnamen führen kann."
         },
         "SSL-01": {
-            "title": "SSL-Verbindung über einen nicht standardmäßigen Port ({})",
+            "title": "SSL-Verbindung über einen nicht standardmäßigen Port ({}) zu {}",
             "description": "Es ist ungewöhnlich, dass SSL-Verbindungen von Smartphones über einen nicht standardmäßigen Port hergestellt werden. Das kann durchaus legitim sein, aber wir empfehlen dennoch, die Reputation von {} zu überprüfen. Sehen Sie sich dazu den entsprechenden WHOIS-Eintrag, das zugehörige autonome System und das Erstellungsdatum an und suchen Sie im Internet danach."
         },
         "SSL-02": {
@@ -103,6 +112,10 @@
         "ADV-01": {
             "title": "Überprüfen Sie die Warnungen für {}",
             "description": "Bitte überprüfen Sie die Reputation des Hosts {}. Dieser scheint bösartig zu sein, da er während der Sitzung {} Warnungen verursacht hat."
+        },
+        "UMBRELLA-01": {
+            "title": "Domain {} steht nicht in den Cisco-Umbrella-Top-500K",
+            "description": "Die Domain {} erscheint nicht unter den 500000 am häufigsten abgefragten Namen in der globalen Cisco-Umbrella-DNS-Telemetrie. Das ist kein Beweis für Schadcode – viele legitime Sites sind selten – aber der Host sollte geprüft werden, besonders bei weiteren Warnungen."
         },
         "SNORT-01": {
             "title": "Suricata-Regel ausgelöst: {}",
@@ -132,6 +145,8 @@
         "report_generated_on": "Bericht erstellt am",
         "capture_duration": "Aufnahmedauer",
         "packets_number": "Anzahl der Pakete",
+        "capture_started": "Capture begann mit:",
+        "capture_ended": "Capture endete an:",
         "capture_sha1": "SHA1-Aufnahme",
         "report_for_the_capture": "Bericht zur Aufnahme",
         "report_footer": "Dieser Bericht wurde von einem SpyGuard-Gerät automatisch erstellt. Wenn Sie Fragen haben, Bugs melden oder Feedback geben möchten, kontaktieren Sie uns unter spyguard@protonmail.com.",

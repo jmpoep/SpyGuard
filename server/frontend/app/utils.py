@@ -13,6 +13,9 @@ from functools import reduce
 import psutil
 import yaml
 
+from app.spyguard_logging import get_logger
+
+log = get_logger()
 
 def get_device_uuid() -> str:
     """Get the device UUID
@@ -40,17 +43,47 @@ def get_device_uuid() -> str:
     if uuid_not_found:
         return "00000000-0000-0000-0000-000000000000"
 
-def read_config(path) -> any:
+def read_config(path, default=None) -> any:
     """Read a value from the configuration file
 
     Args:
         path (turple): The path as ('category', 'key')
+        default (any): Value returned if missing/invalid config.
 
     Returns:
         any: The configuration element.
     """
-    config = yaml.load(open("/usr/share/spyguard/config.yaml", "r"), Loader=yaml.SafeLoader)
-    return reduce(dict.get, path, config)
+    try:
+        with open("/usr/share/spyguard/config.yaml", "r", encoding="utf-8") as f:
+            config = yaml.load(f, Loader=yaml.SafeLoader) or {}
+    except Exception:
+        return default
+
+    cur = config
+    for key in path:
+        if not isinstance(cur, dict):
+            return default
+        if key not in cur:
+            return default
+        cur = cur[key]
+    return cur
+
+
+def effective_capture_export() -> str:
+    """How end-users export captures: usb | browser | server."""
+    v = read_config(("frontend", "capture_export"))
+    if v in ("usb", "browser", "server"):
+        return v
+    try:
+        with open("/usr/share/spyguard/config.yaml", "r", encoding="utf-8") as f:
+            raw = yaml.load(f, Loader=yaml.SafeLoader) or {}
+        fe = raw.get("frontend") or {}
+        if "download_links" in fe:
+            return "browser" if fe.get("download_links") else "usb"
+    except Exception:
+        pass
+    return "server"
+
 
 def write_config(cat, key, value):
     """Write a new value in the configuration file. 
@@ -79,9 +112,11 @@ def delete_captures() -> bool:
         bool: True if successful.
     """
     try:
+        log.info("delete_captures start")
         # Deleting zombies capture directories
         for d in os.listdir("/tmp/"):
             if re.match("[A-F0-9]{8}", d):
+                log.info("delete_captures removing dir=%s", os.path.join("/tmp/", d))
                 shutil.rmtree(os.path.join("/tmp/", d))
 
         # Deleting zombies hotspot
@@ -90,8 +125,10 @@ def delete_captures() -> bool:
             res = re.search("^[a-zA-Z]+\-[0-9a-f]{4}", line.decode('utf8'))
             if res: sp.Popen(["nmcli", "con", "delete", res[0]])
 
+        log.info("delete_captures done")
         return True
-    except:
+    except Exception:
+        log.exception("delete_captures failed")
         return False
 
 def get_battery_level() -> int:
@@ -156,10 +193,18 @@ def stop_monitoring() -> bool:
     Returns:
         bool: True by default.
     """
-    for proc in psutil.process_iter():
-        if proc.name() == "dumpcap":
-            proc.terminate()
+    try:
+        for proc in psutil.process_iter():
+            if proc.name() == "dumpcap":
+                log.info("stop_monitoring terminating dumpcap pid=%s", proc.pid)
+                proc.terminate()
+    except Exception:
+        log.exception("stop_monitoring process iteration failed")
 
-    sp.Popen(["suricatasc", "-c", "shutdown"])
+    try:
+        sp.Popen(["suricatasc", "-c", "shutdown"])
+        log.info("stop_monitoring requested suricata shutdown")
+    except Exception:
+        log.exception("stop_monitoring suricata shutdown failed")
 
     return True # Yeah, I know...

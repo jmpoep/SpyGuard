@@ -8,6 +8,7 @@ from app.blueprints.whitelist import whitelist_bp
 from app.blueprints.config import config_bp
 from app.blueprints.misp import misp_bp
 from app.blueprints.watchers import watchers_bp
+from app.blueprints.local_assets import local_assets_bp
 from app.blueprints.update import update_bp
 
 import datetime
@@ -43,7 +44,7 @@ def get_file(p, path):
         Return the backend assets (css, js files, fonts etc.)
     """
     rp = "../../app/backend/dist/{}".format(p)
-    return send_from_directory(rp, path) if p in ["css", "fonts", "js", "img"] else redirect("/")
+    return send_from_directory(rp, path) if p in ["assets", "css", "fonts", "js", "img"] else redirect("/")
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -56,6 +57,7 @@ app.register_blueprint(whitelist_bp, url_prefix='/api/whitelist')
 app.register_blueprint(config_bp, url_prefix='/api/config')
 app.register_blueprint(misp_bp, url_prefix='/api/misp')
 app.register_blueprint(watchers_bp, url_prefix='/api/watchers')
+app.register_blueprint(local_assets_bp, url_prefix='/api/local-assets')
 app.register_blueprint(update_bp, url_prefix='/api/update')
 
 if __name__ == '__main__':

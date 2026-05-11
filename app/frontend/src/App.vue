@@ -29,6 +29,20 @@
             }
     },
     methods: {
+        apply_ui_zoom: function() {
+            try {
+                var v = (window.config && window.config.ui_zoom != null) ? window.config.ui_zoom : 100
+                var n = parseInt(v, 10)
+                if (!Number.isFinite(n)) n = 100
+                if (n < 100) n = 100
+                if (n > 150) n = 150
+                // snap to 10%
+                n = Math.round(n / 10) * 10
+                document.body.style.zoom = `${n}%`
+            } catch (e) {
+                // no-op
+            }
+        },
         set_lang: function() {
             if (window.config.user_lang) {
                 var lang = window.config.user_lang
@@ -43,6 +57,7 @@
             .then(response => { 
               window.config = response.data 
               this.set_lang();
+              this.apply_ui_zoom();
             })
             .catch(error => { console.log(error) });
         }

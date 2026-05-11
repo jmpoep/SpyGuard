@@ -1,8 +1,4 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-
-
-Vue.use(VueRouter)
+import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
@@ -24,35 +20,34 @@ const routes = [
     props: true
   },
   {
-    path: '/capture',
+    path: '/capture/:capture_token/:capture_start/:device_name',
     name: 'capture',
     component: () => import('../views/capture.vue'),
     props: true
   },
   {
-    path: '/save-capture',
+    path: '/save-capture/:capture_token',
     name: 'save-capture',
     component: () => import('../views/save-capture.vue'),
     props: true
   },
   {
-    path: '/analysis',
+    path: '/analysis/:capture_token',
     name: 'analysis',
     component: () => import('../views/analysis.vue'),
     props: true
   },
   {
-    path: '/report',
+    path: '/report/:capture_token',
     name: 'report',
     component: () => import('../views/report.vue'),
     props: true
   }
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes,
 })
 
 export default router

@@ -1,8 +1,13 @@
 ![title](https://user-images.githubusercontent.com/25131750/200111909-e0d10587-014a-410c-be05-e7e89cf6c9f5.gif)
 
+
+> [!IMPORTANT]
+> Version 2 finally emerged after two years devoted to my family, marking a return to the project after an extended period away. An update of Suricata introduced breaking changes in the detection mechanism; version 2 addresses these changes while further enhancing the detection of suspicious network flows. Please follow these instructions to switch from the V1 to V2 if you've already installed Spyguard.
+
+
 ### Description 
 
-SpyGuard is a forked and enhanced version of [TinyCheck](https://github.com/KasperskyLab/TinyCheck), developed by the same author when he was working at Kaspersky. SpyGuard's main objective is to detect signs of compromise by monitoring network flows transmitted by a device. 
+SpyGuard's main objective is to detect signs of compromise by monitoring network flows transmitted by a device. 
 
 As it uses WiFi, SpyGuard can be used against a wide range of devices, such as smartphones, laptops, IOTs or workstations. To do its job, the analysis engine of SpyGuard is using Indicators of Compromise (IOCs), anomaly detection and is supported by [Suricata](https://suricata.io).
 
@@ -10,7 +15,7 @@ As it uses WiFi, SpyGuard can be used against a wide range of devices, such as s
 
 |  📰 Journalists   |     🏦 IT Services      |  🌏 NGOs | 👩 Women's Shelter | 👮‍♂️ LEA |
 |:--------:|:-------------:|:-----:|:-----:|:-----:|
-| As a journalist, I need to test my smartphone's against spyware before or during engagements with confidential informants. |  Working for a public institution, I aim to set up a self-service station where individuals can check their smartphones for spyware. | After traveling overseas, I'm looking to check my phone and laptop quickly. | I seek to examine the smartphones of women upon their arrival for any stalkerware. | I aim to check the communications of a smartphone in response to a complaint, as a preliminary step before proceeding with a full forensic analysis. |
+| As a journalist, I need to test my smartphone's against spyware before or during engagements with confidential informants. |  Working for a public institution, I aim to set up a self-service kiosk where individuals can check their smartphones for spyware. | After traveling overseas, I'm looking to check my phone and laptop quickly. | I seek to examine the smartphones of women upon their arrival for any stalkerware. | I aim to check the communications of a smartphone in response to a complaint, as a preliminary step before proceeding with a full forensic analysis. |
 
 **Note:** *SpyGuard is not a forensic tool*. Therefore, it might miss malware that does not communicate during the analysis. [Please refer to the FAQ for more information](https://github.com/SpyGuard/SpyGuard/wiki/Frequently-Asked-Questions#1-spyguard-hasnt-detected-anything-malicious-im-safe).
 
@@ -34,7 +39,7 @@ The frontend is available at the URL `https://localhost:8000`.
 ### Smartphone analysis best practices 
 
 * Do the interception in a public place (library, restaurant, train station...) or common place (office, home...); 
-* Intercept the network communications of the device for at least 15 minutes; 
+* Intercept the network communications of the device for at least 30 minutes; 
 * Interact with the analysed device during the interception (reboot it, take a photo, send an SMS...);
 
 ### SpyGuard and Stalkerware threat
@@ -53,7 +58,7 @@ You can use SpyGuard in a commercial product. However, you can't use SpyGuard as
 
 ### Contact
 
-If you need an express help to understand the results of the analysis or have a specific demand/question, do not hesitate to contact [the author](https://twitter.com/felixaime) via Twitter or by sending an email at spyguard@protonmail.com. A bug? Do not hesitate to open a [new issue](https://github.com/SpyGuard/spyguard/issues).
+If you need an express help to understand the results of the analysis or have a specific demand/question, do not hesitate to contact [the author](https://twitter.com/felixaime) via Twitter or by sending an email at felix.aime@gmail.com. A bug? Do not hesitate to open a [new issue](https://github.com/SpyGuard/spyguard/issues).
 
 ### They have contributed to or helped this project
 
