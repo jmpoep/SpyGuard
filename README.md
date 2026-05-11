@@ -2,7 +2,8 @@
 
 
 > [!IMPORTANT]
-> Version 2 finally emerged after two years devoted to my family, marking a return to the project after an extended period away. An update of Suricata introduced breaking changes in the detection mechanism; version 2 addresses these changes while further enhancing the detection of suspicious network flows. You can see changes between the V1 and the V2 in this [PR description](https://github.com/SpyGuard/SpyGuard/pull/60). 
+> Version 2 finally emerged after two years devoted to my family, marking a return to the project after an extended period away. An update of Suricata introduced breaking changes in the detection mechanism; version 2 addresses these changes while further enhancing the detection of suspicious network flows. 
+> You can see changes between the V1 and the V2 in this [PR description](https://github.com/SpyGuard/SpyGuard/pull/60). 
 
 
 ### Description 
