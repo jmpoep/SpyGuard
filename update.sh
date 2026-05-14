@@ -115,13 +115,27 @@ elif [[ "$PWD" == "/tmp/spyguard" ]]; then
     #sqlite3 database.sqlite3 < /tmp/spyguard/assets/scheme.sql 2>/dev/null
 
     echo "[+] Updating spyguard configuration"
-    sed -i '/max_alerts/d' /tmp/spyguard/config.yaml
-    sed -i '/free_issuers/d' /tmp/spyguard/config.yaml
-    sed -i '/ CN=/d' /tmp/spyguard/config.yaml
-    sed -i '/^frontend:/a\  capture_export: server' /tmp/spyguard/config.yaml
-    sed -i '/^frontend:/a\  spyguard_server: https://spyguard.net' /tmp/spyguard/config.yaml
-    sed -i '/^frontend:/a\  ui_zoom: 100' /tmp/spyguard/config.yaml
-
+    CONFIG_FILE="/usr/share/spyguard/config.yaml"
+    if [[ -f "$CONFIG_FILE" ]]; then
+      if grep -qF 'max_alerts' "$CONFIG_FILE"; then
+        sed -i '/max_alerts/d' "$CONFIG_FILE"
+      fi
+      if grep -qF 'free_issuers' "$CONFIG_FILE"; then
+        sed -i '/free_issuers/d' "$CONFIG_FILE"
+      fi
+      if grep -qF ' CN=' "$CONFIG_FILE"; then
+        sed -i '/ CN=/d' "$CONFIG_FILE"
+      fi
+      if ! grep -qE '^[[:space:]]*capture_export:' "$CONFIG_FILE"; then
+        sed -i '/^frontend:/a\  capture_export: server' "$CONFIG_FILE"
+      fi
+      if ! grep -qE '^[[:space:]]*spyguard_server:' "$CONFIG_FILE"; then
+        sed -i '/^frontend:/a\  spyguard_server: https://spyguard.net' "$CONFIG_FILE"
+      fi
+      if ! grep -qE '^[[:space:]]*ui_zoom:' "$CONFIG_FILE"; then
+        sed -i '/^frontend:/a\  ui_zoom: 100' "$CONFIG_FILE"
+      fi
+    fi
 
     echo "[+] Restarting services"
     restart_service spyguard-backend
