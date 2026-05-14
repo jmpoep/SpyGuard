@@ -110,9 +110,9 @@ elif [[ "$PWD" == "/tmp/spyguard" ]]; then
     # requirements.txt lives in the cloned repo (assets/ is not kept under /usr/share/spyguard after install).
     python3 -m pip install -r /tmp/spyguard/assets/requirements.txt
 
-    echo "[+] Updating the database scheme..."
-    cd /usr/share/spyguard/
-    sqlite3 database.sqlite3 < /tmp/spyguard/assets/scheme.sql 2>/dev/null
+    #echo "[+] Updating the database scheme..."
+    #cd /usr/share/spyguard/
+    #sqlite3 database.sqlite3 < /tmp/spyguard/assets/scheme.sql 2>/dev/null
 
     echo "[+] Updating spyguard configuration"
     sed -i '/max_alerts/d' /tmp/spyguard/config.yaml
