@@ -151,7 +151,7 @@
         "report_for_the_capture": "Bericht zur Aufnahme",
         "report_footer": "Dieser Bericht wurde von einem SpyGuard-Gerät automatisch erstellt. Wenn Sie Fragen haben, Bugs melden oder Feedback geben möchten, kontaktieren Sie uns unter spyguard@protonmail.com.",
         "high_msg": "Ihr Gerät scheint kompromittiert zu sein, da Sie {} Warnung(en) der Stufe \"Hoch\" haben.",
-        "moderate_msg": "Sie haben {} Warnungen der Stufe \"Mittel\": Ihr Gerät könnte kompromittiert sein. Bitte sehen Sie sich die Warnungen sorgfältig an.",
+        "moderate_msg": "Sie haben {} Warnungen der Stufe \"Mittel\": Ihr Gerät weist verdächtiges Verhalten auf. Bitte sehen Sie sich die Warnungen sorgfältig an.",
         "low_msg": "Sie haben nur {} Warnungen der Stufe \"Niedrig\": Überprüfen Sie sie gerne.",
         "none_msg": "Alles sieht gut aus – kein Warnungen. Sehen Sie sich gerne auch die nicht kategorisierten Kommunikationsverbindungen an, falls welche vorhanden sind.",
         "detection_methods": "Nachweismethoden",

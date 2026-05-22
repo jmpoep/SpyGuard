@@ -60,7 +60,7 @@
         "location_msg": "Un'applicazione condivide la<br /> geolocalizzazione attuale con terze parti.",
         "fine_msg": "Sembra tutto a posto, <br /> non sono presenti avvisi.",
         "high_msg": "È presente {nb} avviso con priorità elevata,<br /> il dispositivo sembra compromesso.",
-        "moderate_msg": "Sono presenti {nb} avvisi con priorità moderata, è possibile che il dispositivo sia compromesso.",
+        "moderate_msg": "Sono presenti {nb} avvisi con priorità moderata,<br />il dispositivo presenta un comportamento sospetto.",
         "low_msg": "Sono presenti solo {nb} avvisi con priorità bassa<br /> da controllare.",
         "save_report": "Salva il rapporto",
         "report_of": "Rapporto di analisi di",

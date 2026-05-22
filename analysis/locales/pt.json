@@ -151,7 +151,7 @@
         "report_for_the_capture": "Relatório da captura",
         "report_footer": "Este relatório foi gerado automaticamente por um dispositivo SpyGuard. Em caso de dúvidas, relatório de erros ou comentários, envie uma mensagem para spyguard@protonmail.com.",
         "high_msg": "O dispositivo parece estar comprometido porque você tem {} alerta(s) crítico(s).",
-        "moderate_msg": "Você tem {} alerta(s) moderado(s), seu dispositivo pode estar comprometido. Analise-os com cuidado.",
+        "moderate_msg": "Você tem {} alerta(s) moderado(s), seu dispositivo apresenta comportamento suspeito. Analise-os com cuidado.",
         "low_msg": "Você tem apenas {} alerta(s) leve(s), não deixe de verificá-los.",
         "none_msg": "Tudo parece estar bem, zero alertas. Não deixe de verificar comunicações não categorizadas, se houver.",
         "detection_methods": "Métodos de detecção",

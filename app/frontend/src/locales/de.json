@@ -60,7 +60,7 @@
         "location_msg": "Eine Anwendung teilt Ihren<br> aktuellen Standort mit Dritten.",
         "fine_msg": "Alles sieht gut aus – kein Warnungen.",
         "high_msg": "Sie haben {nb} Warnung der Stufe \"Hoch\":<br>Ihr Gerät scheint kompromittiert zu sein.",
-        "moderate_msg": "Sie haben {nb} Warnungen der Stufe \"Mittel\":<br>Ihr Gerät könnte kompromittiert sein.",
+        "moderate_msg": "Sie haben {nb} Warnungen der Stufe \"Mittel\":<br>Ihr Gerät weist verdächtiges Verhalten auf.",
         "low_msg": "Sie haben nur {nb} Warnungen der Stufe \"Niedrig\":<br> Überprüfen Sie sie gerne.",
         "save_report": "Bericht speichern",
         "report_of": "Analysebericht für",

@@ -151,7 +151,7 @@
         "report_for_the_capture": "Informe de la captura",
         "report_footer": "Este informe ha sido autogenerado por un dispositivo SpyGuard. Para cualquier pregunta, informe de fallos o feedback por favor contacte con spyguard@protonmail.com.",
         "high_msg": "Su dispositivo parece estar comprometido ya que tiene {} alerta(s) de nivel alto.",
-        "moderate_msg": "Tienes {} alerta(s) de nivel moderado, su dispositivo podría estar comprometido. Por favor revíselas detenidamente.",
+        "moderate_msg": "Tienes {} alerta(s) de nivel moderado, su dispositivo presenta un comportamiento sospechoso. Por favor revíselas detenidamente.",
         "low_msg": "Solamente tiene {} alertas(s) de nivel bajo, por favor revíselas.",
         "none_msg": "Todo se ve bien, cero alertas. No dude en comprobar las comunicaciones no clasificadas (en caso de haberlas).",
         "detection_methods": "Métodos de detección",

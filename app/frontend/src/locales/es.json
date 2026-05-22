@@ -60,7 +60,7 @@
         "location_msg": "Una aplicación está compartiendo su <br /> geolocalización actual con un tercero.",
         "fine_msg": "Todo parece correcto, cero alertas",
         "high_msg": "Tiene {nb} alerta máxima, <br /> tu dispositivo parece estar comprometido",
-        "moderate_msg": "Tiene {nb} alertas moderadas, <br /> tu dispositivo puede estar comprometido",
+        "moderate_msg": "Tiene {nb} alertas moderadas, <br /> su dispositivo presenta un comportamiento sospechoso",
         "low_msg": "Solo tiene {nb} alertas bajas, <br /> por favor revíselas",
         "save_report": "Guardar el informe",
         "report_of": "Informe de análisis de",

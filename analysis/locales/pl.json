@@ -151,7 +151,7 @@
         "report_for_the_capture": "Raport dla badania",
         "report_footer": "Raport został wygenerowany automatycznie przez urządzenie SpyGuard. W sprawie pytań, błędów oraz oceny, kontakt: spyguard@protonmail.com.",
         "high_msg": "Twoje urządzenie wygląd na skompromitowane, odnotowano {} wysokich ostrzeżeń.",
-        "moderate_msg": "Odntowano {} umiarkowanych ostrzeżeń, Twoje urządzenie może być skompromitowane. Badź czujna(y) używając go.",
+        "moderate_msg": "Odnotowano {} umiarkowanych ostrzeżeń, Twoje urządzenie wykazuje podejrzane zachowanie. Bądź czujna(y) używając go.",
         "low_msg": "Odnotowano tylko niskie ostrzeżenia: {}. Możesz się im przyjrzeć.",
         "none_msg": "Zero ostrzeżeń, wszystko wygląda dobrze. Możesz się przyjrzeć nieskategoryzowanej komunikacji, jeżeli miała miejsce.",
         "detection_methods": "Metody detekcji",

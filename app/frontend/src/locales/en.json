@@ -60,7 +60,7 @@
         "location_msg": "An application is sharing your<br /> current geolocation with a third party.",
         "fine_msg": "Everything looks fine, zero alerts.",
         "high_msg": "You have {nb} high alert,<br />your device seems to be compromised.",
-        "moderate_msg": "You have {nb} moderate alerts,<br />your device might be compromised.",
+        "moderate_msg": "You have {nb} moderate alerts,<br />your device shows suspicious behavior.",
         "low_msg": "You have only {nb} low alerts,<br /> don't hesitate to check them.",
         "save_report": "Save the report",
         "report_of": "Analysis report of",

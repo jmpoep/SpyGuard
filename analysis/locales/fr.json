@@ -151,7 +151,7 @@
         "report_for_the_capture": "Rapport pour la capture",
         "report_footer": "Ce rapport a été automatiquement généré par une instance de SpyGuard. Pour toute question et retours, n'hésitez pas à contacter spyguard@protonmail.com.",
         "high_msg": "Votre appareil semble être compromis car vous avez {} alerte(s) élevée(s).",
-        "moderate_msg": "Vous avez {} alerte(s) modérée(s), votre appareil peut être compromis. Regardez ces alertes en détail.",
+        "moderate_msg": "Vous avez {} alerte(s) modérée(s), votre appareil présente un comportement suspect. Regardez ces alertes en détail.",
         "low_msg": "Vous avez uniquement {} alerte(s) faibles, n'hésitez pas à les consulter.",
         "none_msg": "Toute semble normal, vous avez aucune alerte. Cependant, n'hésitez pas à regarder les communications non catégorisées.",
         "detection_methods": "Méthodes de détection",

@@ -87,9 +87,9 @@
                                         <span class="host-services" v-if="group.service_summary"> - {{ group.service_summary }}</span>
                                     </span>
                                     <span class="alert-group-count">
-                                        <span class="high-label-head" v-if="group.counts.high">{{ group.counts.high }} {{ $t("report.high") }}</span>
-                                        <span class="moderate-label-head" v-if="group.counts.moderate">{{ group.counts.moderate }} {{ $t("report.moderate") }}</span>
-                                        <span class="low-label-head" v-if="group.counts.low">{{ group.counts.low }} {{ $t("report.low") }}</span>
+                                        <span class="high-label-head" v-if="group.counts.high">{{ group.counts.high }}</span>
+                                        <span class="moderate-label-head" v-if="group.counts.moderate">{{ group.counts.moderate }}</span>
+                                        <span class="low-label-head" v-if="group.counts.low">{{ group.counts.low }}</span>
                                     </span>
                                     <span class="btn-whitelist" v-on:click.stop="add_whitelist(group.host)">Add to the whitelist</span>
                                 </summary>
@@ -245,7 +245,6 @@
     gap: 8px;
     height:20px;
     margin-left: auto;
-    margin-right: 10px;
     font-size: 0.9em;
     opacity: 0.95;
 }

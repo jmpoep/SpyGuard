@@ -60,7 +60,7 @@
         "location_msg": "Une application dévoile votre<br /> géo-localisation actelle.",
         "fine_msg": "Aucun flux suspect détecté,<br />vous avez aucune alerte.",
         "high_msg": "Vous avez {nb} alerte.s élevée.s,<br />votre appareil semble être compromis.",
-        "moderate_msg": "Vous avez {nb} alerte.s moyenne.s,<br />votre appareil est peut-être compromis.",
+        "moderate_msg": "Vous avez {nb} alerte.s moyenne.s,<br />votre appareil présente un comportement suspect.",
         "low_msg": "Vous avez uniquement {nb} alerte.s basse.s<br /> n'hésitez pas à les consulter.",
         "save_report": "Archiver le rapport",
         "report_of": "Rapport d'analyse de",

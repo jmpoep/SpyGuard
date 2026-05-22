@@ -2088,7 +2088,7 @@ class Engine():
                                         "host": resolved_host,
                                         "proto": protocol.get("name"),
                                         "port": protocol.get("port"),
-                                        "level": "Moderate",
+                                        "level": "Low",
                                         "id": "PROTO-01"})
                 try:
                     if protocol["port"] >= int(self.max_ports):
